@@ -1,0 +1,79 @@
+[gd_resource type="Resource" script_class="GardenEnemyData" format=3 uid="uid://c1uodldllmpm6"]
+
+[ext_resource type="Script" uid="uid://bmwumi5ds27yb" path="res://scripts/data/enemy_data.gd" id="1_4cvrj"]
+[ext_resource type="Texture2D" uid="uid://chjqi788neb73" path="res://assets/spritecook/enemies/bone_hound/base.png" id="1_xd6x0"]
+
+[resource]
+script = ExtResource("1_4cvrj")
+id = "bone_hound"
+title = "Bone Hound"
+health = 18.0
+speed = 130.0
+bounty = 10
+sprite_scale = 2.0
+base_texture = ExtResource("1_xd6x0")
+animations = {
+"attack": {
+"bottom_padding": 0.0,
+"columns": 8.0,
+"content_height": 102.0,
+"count": 8.0,
+"crop": {
+"h": 102.0,
+"w": 49.0,
+"x": 28.0,
+"y": 2.0
+},
+"fps": 8.0,
+"frame_height": 104.0,
+"frame_width": 104.0,
+"offset_x": 0.0,
+"path": "res://assets/spritecook/animations/bone_hound_attack.png",
+"rows": 1.0
+},
+"death": {
+"columns": 8.0,
+"count": 8.0,
+"fps": 8.0,
+"frame_height": 100.0,
+"frame_width": 100.0,
+"path": "res://assets/spritecook/enemies/bone_hound/death.png",
+"rows": 1.0
+},
+"idle": {
+"columns": 8.0,
+"count": 8.0,
+"fps": 8.0,
+"frame_height": 100.0,
+"frame_width": 100.0,
+"path": "res://assets/spritecook/enemies/bone_hound/idle.png",
+"rows": 1.0
+},
+"walk_down": {
+"columns": 8.0,
+"count": 8.0,
+"fps": 8.0,
+"frame_height": 100.0,
+"frame_width": 100.0,
+"path": "res://assets/spritecook/enemies/bone_hound/walk_down.png",
+"rows": 1.0
+},
+"walk_right": {
+"columns": 8.0,
+"count": 8.0,
+"fps": 8.0,
+"frame_height": 100.0,
+"frame_width": 100.0,
+"path": "res://assets/spritecook/enemies/bone_hound/walk_right.png",
+"rows": 1.0
+},
+"walk_up": {
+"columns": 8.0,
+"count": 8.0,
+"fps": 8.0,
+"frame_height": 100.0,
+"frame_width": 100.0,
+"path": "res://assets/spritecook/enemies/bone_hound/walk_up.png",
+"rows": 1.0
+}
+}

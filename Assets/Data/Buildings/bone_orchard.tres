@@ -1,0 +1,56 @@
+[gd_resource type="Resource" script_class="GardenBuildingData" format=3 uid="uid://dspuvb54amnb0"]
+
+[ext_resource type="Script" uid="uid://ciuibc3ejc68i" path="res://scripts/data/building_data.gd" id="1_fp3lx"]
+[ext_resource type="Texture2D" uid="uid://dtcr6foumpujq" path="res://assets/spritecook/buildings/bone_orchard.png" id="2_mwf82"]
+
+[resource]
+script = ExtResource("1_fp3lx")
+id = "bone_orchard"
+title = "Bone Orchard"
+description = "Bone trees bear Gravecoin. Invest early and collect often."
+role = "producer"
+footprint = 2
+texture = ExtResource("2_mwf82")
+attack_damage = 0.0
+attack_range = 0.0
+production_rate = 0.8
+storage = 720.0
+tint = Color(0.8901961, 0.7254902, 0.36862746, 1)
+animations = {
+"attack": {
+"bottom_padding": 11.0,
+"columns": 8.0,
+"content_height": 629.0,
+"count": 8.0,
+"crop": {
+"h": 629.0,
+"w": 469.0,
+"x": 83.0,
+"y": 0.0
+},
+"fps": 8.0,
+"frame_height": 640.0,
+"frame_width": 640.0,
+"offset_x": 3.0,
+"path": "res://assets/spritecook/animations/bone_orchard_attack.png",
+"rows": 1.0
+},
+"idle": {
+"bottom_padding": 11.0,
+"columns": 8.0,
+"content_height": 629.0,
+"count": 8.0,
+"crop": {
+"h": 629.0,
+"w": 468.0,
+"x": 84.0,
+"y": 0.0
+},
+"fps": 8.0,
+"frame_height": 640.0,
+"frame_width": 640.0,
+"offset_x": 2.0,
+"path": "res://assets/spritecook/animations/bone_orchard_idle.png",
+"rows": 1.0
+}
+}

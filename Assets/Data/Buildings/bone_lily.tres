@@ -1,0 +1,50 @@
+[gd_resource type="Resource" script_class="GardenBuildingData" format=3 uid="uid://b6014ujdj1wfr"]
+
+[ext_resource type="Script" uid="uid://ciuibc3ejc68i" path="res://scripts/data/building_data.gd" id="1_gqe0l"]
+[ext_resource type="Texture2D" uid="uid://hravrgg7vp6n" path="res://assets/spritecook/buildings/bone_lily.png" id="2_jc1i7"]
+
+[resource]
+script = ExtResource("1_gqe0l")
+id = "bone_lily"
+title = "Bone Lily"
+description = "Rapid bone seeds strike the enemy nearest the Crypt."
+texture = ExtResource("2_jc1i7")
+tint = Color(0.92941177, 0.89411765, 0.7764706, 1)
+animations = {
+"attack": {
+"bottom_padding": 0.0,
+"columns": 8.0,
+"content_height": 160.0,
+"count": 8.0,
+"crop": {
+"h": 160.0,
+"w": 94.0,
+"x": 35.0,
+"y": 0.0
+},
+"fps": 8.0,
+"frame_height": 160.0,
+"frame_width": 160.0,
+"offset_x": -2.0,
+"path": "res://assets/spritecook/animations/bone_lily_attack.png",
+"rows": 1.0
+},
+"idle": {
+"bottom_padding": 0.0,
+"columns": 8.0,
+"content_height": 141.0,
+"count": 8.0,
+"crop": {
+"h": 141.0,
+"w": 85.0,
+"x": 37.0,
+"y": 19.0
+},
+"fps": 8.0,
+"frame_height": 160.0,
+"frame_width": 160.0,
+"offset_x": 1.0,
+"path": "res://assets/spritecook/animations/bone_lily_idle.png",
+"rows": 1.0
+}
+}

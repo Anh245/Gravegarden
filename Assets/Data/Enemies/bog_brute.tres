@@ -1,0 +1,107 @@
+[gd_resource type="Resource" script_class="GardenEnemyData" format=3 uid="uid://p30s1bjwbkpf"]
+
+[ext_resource type="Texture2D" uid="uid://dyuswr0v702pv" path="res://assets/spritecook/enemies/bog_brute/base.png" id="1_77k3e"]
+[ext_resource type="Script" uid="uid://bmwumi5ds27yb" path="res://scripts/data/enemy_data.gd" id="1_j5ol3"]
+
+[resource]
+script = ExtResource("1_j5ol3")
+id = "bog_brute"
+title = "Bog Brute"
+health = 120.0
+speed = 48.0
+bounty = 22
+heart_damage = 2
+sprite_scale = 1.45
+base_texture = ExtResource("1_77k3e")
+animations = {
+"attack": {
+"bottom_padding": 0.0,
+"columns": 8.0,
+"content_height": 208.0,
+"count": 8.0,
+"crop": {
+"h": 208.0,
+"w": 204.0,
+"x": 0.0,
+"y": 0.0
+},
+"fps": 8.0,
+"frame_height": 208.0,
+"frame_width": 208.0,
+"offset_x": 2.0,
+"path": "res://assets/spritecook/animations/bog_brute_attack.png",
+"rows": 1.0
+},
+"death": {
+"bottom_padding": 0.0,
+"columns": 8.0,
+"content_height": 204.0,
+"count": 8.0,
+"crop": {
+"h": 204.0,
+"w": 205.0,
+"x": 0.0,
+"y": 4.0
+},
+"fps": 8.0,
+"frame_height": 208.0,
+"frame_width": 208.0,
+"offset_x": 2.0,
+"path": "res://assets/spritecook/animations/bog_brute_death.png",
+"rows": 1.0
+},
+"idle": {
+"bottom_padding": 1.0,
+"columns": 8.0,
+"content_height": 205.0,
+"count": 8.0,
+"crop": {
+"h": 205.0,
+"w": 188.0,
+"x": 9.0,
+"y": 2.0
+},
+"fps": 8.0,
+"frame_height": 208.0,
+"frame_width": 208.0,
+"offset_x": 1.0,
+"path": "res://assets/spritecook/animations/bog_brute_idle.png",
+"rows": 1.0
+},
+"walk_down": {
+"bottom_padding": 0.0,
+"columns": 12.0,
+"content_height": 183.0,
+"count": 12.0,
+"fps": 8.0,
+"frame_height": 208.0,
+"frame_width": 208.0,
+"offset_x": 1.0,
+"path": "res://assets/spritecook/v2/brute_walk_down.png",
+"rows": 1.0
+},
+"walk_right": {
+"bottom_padding": 0.0,
+"columns": 12.0,
+"content_height": 180.0,
+"count": 12.0,
+"fps": 8.0,
+"frame_height": 206.0,
+"frame_width": 206.0,
+"offset_x": 1.0,
+"path": "res://assets/spritecook/v2/brute_walk_right.png",
+"rows": 1.0
+},
+"walk_up": {
+"bottom_padding": 0.0,
+"columns": 12.0,
+"content_height": 183.0,
+"count": 12.0,
+"fps": 8.0,
+"frame_height": 208.0,
+"frame_width": 208.0,
+"offset_x": 2.0,
+"path": "res://assets/spritecook/v2/brute_walk_up.png",
+"rows": 1.0
+}
+}

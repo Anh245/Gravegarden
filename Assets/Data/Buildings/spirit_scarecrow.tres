@@ -1,0 +1,56 @@
+[gd_resource type="Resource" script_class="GardenBuildingData" format=3 uid="uid://p4dugbgaf0ek"]
+
+[ext_resource type="Script" uid="uid://ciuibc3ejc68i" path="res://scripts/data/building_data.gd" id="1_gk7e4"]
+[ext_resource type="Texture2D" uid="uid://cydbdfb4cpamq" path="res://assets/spritecook/buildings/spirit_scarecrow.png" id="2_xh65o"]
+
+[resource]
+script = ExtResource("1_gk7e4")
+id = "spirit_scarecrow"
+title = "Spirit Scarecrow"
+description = "Nearby defenses attack 25% faster. Auras do not stack."
+role = "support"
+cost = 260
+unlock_wave = 4
+texture = ExtResource("2_xh65o")
+attack_damage = 0.0
+attack_interval = 1.0
+attack_range = 320.0
+tint = Color(0.7058824, 0.5411765, 0.8039216, 1)
+animations = {
+"attack": {
+"bottom_padding": 0.0,
+"columns": 8.0,
+"content_height": 145.0,
+"count": 8.0,
+"crop": {
+"h": 145.0,
+"w": 128.0,
+"x": 10.0,
+"y": 3.0
+},
+"fps": 8.0,
+"frame_height": 148.0,
+"frame_width": 148.0,
+"offset_x": 0.0,
+"path": "res://assets/spritecook/animations/spirit_scarecrow_attack.png",
+"rows": 1.0
+},
+"idle": {
+"bottom_padding": 0.0,
+"columns": 8.0,
+"content_height": 144.0,
+"count": 8.0,
+"crop": {
+"h": 144.0,
+"w": 129.0,
+"x": 10.0,
+"y": 4.0
+},
+"fps": 8.0,
+"frame_height": 148.0,
+"frame_width": 148.0,
+"offset_x": 0.0,
+"path": "res://assets/spritecook/animations/spirit_scarecrow_idle.png",
+"rows": 1.0
+}
+}

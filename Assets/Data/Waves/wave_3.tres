@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="GardenWaveData" format=3 uid="uid://ekn2px07okaa"]
+
+[ext_resource type="Script" uid="uid://7t7kirwya3k0" path="res://scripts/data/wave_data.gd" id="1_37jdh"]
+
+[resource]
+script = ExtResource("1_37jdh")
+index = 3
+composition = {
+"bog_brute": 3.0,
+"bone_hound": 6.0,
+"rotling": 10.0,
+"wraith": 5.0
+}
+spawn_interval = 2.0

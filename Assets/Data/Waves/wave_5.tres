@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="GardenWaveData" format=3 uid="uid://ccocto8we65os"]
+
+[ext_resource type="Script" uid="uid://7t7kirwya3k0" path="res://scripts/data/wave_data.gd" id="1_md5x8"]
+
+[resource]
+script = ExtResource("1_md5x8")
+index = 5
+composition = {
+"bog_brute": 4.0,
+"bone_hound": 6.0,
+"ossuary_giant": 1.0,
+"rotling": 8.0,
+"wraith": 6.0
+}

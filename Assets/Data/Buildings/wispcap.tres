@@ -1,0 +1,56 @@
+[gd_resource type="Resource" script_class="GardenBuildingData" format=3 uid="uid://bn7dxvvdfyo5g"]
+
+[ext_resource type="Script" uid="uid://ciuibc3ejc68i" path="res://scripts/data/building_data.gd" id="1_0u7dj"]
+[ext_resource type="Texture2D" uid="uid://gdxqy6b36ag2" path="res://assets/spritecook/buildings/wispcap.png" id="2_5hdrn"]
+
+[resource]
+script = ExtResource("1_0u7dj")
+id = "wispcap"
+title = "Wispcap"
+description = "Spirit bolts slow targets by 25% for one second."
+role = "slow"
+cost = 230
+unlock_wave = 3
+texture = ExtResource("2_5hdrn")
+attack_damage = 11.0
+attack_interval = 1.0
+attack_range = 300.0
+tint = Color(0.4117647, 0.8666667, 0.9254902, 1)
+animations = {
+"attack": {
+"bottom_padding": 0.0,
+"columns": 8.0,
+"content_height": 144.0,
+"count": 8.0,
+"crop": {
+"h": 144.0,
+"w": 95.0,
+"x": 26.0,
+"y": 2.0
+},
+"fps": 8.0,
+"frame_height": 146.0,
+"frame_width": 146.0,
+"offset_x": 0.0,
+"path": "res://assets/spritecook/animations/wispcap_attack.png",
+"rows": 1.0
+},
+"idle": {
+"bottom_padding": 1.0,
+"columns": 8.0,
+"content_height": 142.0,
+"count": 8.0,
+"crop": {
+"h": 142.0,
+"w": 95.0,
+"x": 26.0,
+"y": 3.0
+},
+"fps": 8.0,
+"frame_height": 146.0,
+"frame_width": 146.0,
+"offset_x": 0.0,
+"path": "res://assets/spritecook/animations/wispcap_idle.png",
+"rows": 1.0
+}
+}

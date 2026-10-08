@@ -1,0 +1,80 @@
+[gd_resource type="Resource" script_class="GardenEnemyData" format=3 uid="uid://dau2mr83go03t"]
+
+[ext_resource type="Script" uid="uid://bmwumi5ds27yb" path="res://scripts/data/enemy_data.gd" id="1_7w8x8"]
+[ext_resource type="Texture2D" uid="uid://ba34iykb0ldst" path="res://assets/spritecook/enemies/wraith/base.png" id="1_551vb"]
+
+[resource]
+script = ExtResource("1_7w8x8")
+id = "wraith"
+title = "Wraith"
+health = 55.0
+speed = 76.0
+bounty = 16
+slow_resistance = 0.7
+sprite_scale = 2.5
+base_texture = ExtResource("1_551vb")
+animations = {
+"attack": {
+"bottom_padding": 0.0,
+"columns": 8.0,
+"content_height": 96.0,
+"count": 8.0,
+"crop": {
+"h": 96.0,
+"w": 96.0,
+"x": 0.0,
+"y": 0.0
+},
+"fps": 8.0,
+"frame_height": 96.0,
+"frame_width": 96.0,
+"offset_x": 0.0,
+"path": "res://assets/spritecook/animations/wraith_attack.png",
+"rows": 1.0
+},
+"death": {
+"columns": 8.0,
+"count": 8.0,
+"fps": 8.0,
+"frame_height": 92.0,
+"frame_width": 92.0,
+"path": "res://assets/spritecook/enemies/wraith/death.png",
+"rows": 1.0
+},
+"idle": {
+"columns": 8.0,
+"count": 8.0,
+"fps": 8.0,
+"frame_height": 92.0,
+"frame_width": 92.0,
+"path": "res://assets/spritecook/enemies/wraith/idle.png",
+"rows": 1.0
+},
+"walk_down": {
+"columns": 8.0,
+"count": 8.0,
+"fps": 8.0,
+"frame_height": 92.0,
+"frame_width": 92.0,
+"path": "res://assets/spritecook/enemies/wraith/walk_down.png",
+"rows": 1.0
+},
+"walk_right": {
+"columns": 8.0,
+"count": 8.0,
+"fps": 8.0,
+"frame_height": 92.0,
+"frame_width": 92.0,
+"path": "res://assets/spritecook/enemies/wraith/walk_right.png",
+"rows": 1.0
+},
+"walk_up": {
+"columns": 8.0,
+"count": 8.0,
+"fps": 8.0,
+"frame_height": 92.0,
+"frame_width": 92.0,
+"path": "res://assets/spritecook/enemies/wraith/walk_up.png",
+"rows": 1.0
+}
+}

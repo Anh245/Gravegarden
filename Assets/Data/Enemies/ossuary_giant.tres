@@ -1,0 +1,80 @@
+[gd_resource type="Resource" script_class="GardenEnemyData" format=3 uid="uid://2j8o61gjr2ky"]
+
+[ext_resource type="Texture2D" uid="uid://nxvroqbadrdq" path="res://assets/spritecook/enemies/ossuary_giant/base.png" id="1_pjnia"]
+[ext_resource type="Script" uid="uid://bmwumi5ds27yb" path="res://scripts/data/enemy_data.gd" id="2_fk8jx"]
+
+[resource]
+script = ExtResource("2_fk8jx")
+id = "ossuary_giant"
+title = "Ossuary Giant"
+health = 800.0
+speed = 32.0
+bounty = 250
+heart_damage = 5
+sprite_scale = 1.8
+base_texture = ExtResource("1_pjnia")
+animations = {
+"attack": {
+"bottom_padding": 0.0,
+"columns": 8.0,
+"content_height": 219.0,
+"count": 8.0,
+"crop": {
+"h": 219.0,
+"w": 184.0,
+"x": 20.0,
+"y": 5.0
+},
+"fps": 8.0,
+"frame_height": 224.0,
+"frame_width": 224.0,
+"offset_x": 0.0,
+"path": "res://assets/spritecook/animations/ossuary_giant_attack.png",
+"rows": 1.0
+},
+"death": {
+"columns": 8.0,
+"count": 8.0,
+"fps": 8.0,
+"frame_height": 216.0,
+"frame_width": 216.0,
+"path": "res://assets/spritecook/enemies/ossuary_giant/death.png",
+"rows": 1.0
+},
+"idle": {
+"columns": 8.0,
+"count": 8.0,
+"fps": 8.0,
+"frame_height": 216.0,
+"frame_width": 216.0,
+"path": "res://assets/spritecook/enemies/ossuary_giant/idle.png",
+"rows": 1.0
+},
+"walk_down": {
+"columns": 8.0,
+"count": 8.0,
+"fps": 8.0,
+"frame_height": 216.0,
+"frame_width": 216.0,
+"path": "res://assets/spritecook/enemies/ossuary_giant/walk_down.png",
+"rows": 1.0
+},
+"walk_right": {
+"columns": 8.0,
+"count": 8.0,
+"fps": 8.0,
+"frame_height": 216.0,
+"frame_width": 216.0,
+"path": "res://assets/spritecook/enemies/ossuary_giant/walk_right.png",
+"rows": 1.0
+},
+"walk_up": {
+"columns": 8.0,
+"count": 8.0,
+"fps": 8.0,
+"frame_height": 216.0,
+"frame_width": 216.0,
+"path": "res://assets/spritecook/enemies/ossuary_giant/walk_up.png",
+"rows": 1.0
+}
+}

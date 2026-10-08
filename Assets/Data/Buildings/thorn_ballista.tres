@@ -1,0 +1,57 @@
+[gd_resource type="Resource" script_class="GardenBuildingData" format=3 uid="uid://dxm55x4n1owej"]
+
+[ext_resource type="Script" uid="uid://ciuibc3ejc68i" path="res://scripts/data/building_data.gd" id="1_tbs21"]
+[ext_resource type="Texture2D" uid="uid://ddy1eme0rm8ww" path="res://assets/spritecook/buildings/thorn_ballista.png" id="2_8ptn3"]
+
+[resource]
+script = ExtResource("1_tbs21")
+id = "thorn_ballista"
+title = "Thorn Ballista"
+description = "Long thorns pierce enemies in a straight line."
+role = "pierce"
+cost = 460
+unlock_wave = 4
+texture = ExtResource("2_8ptn3")
+attack_damage = 70.0
+attack_interval = 2.2
+attack_range = 740.0
+visual_scale = 1.15
+animations = {
+"attack": {
+"bottom_padding": 0.0,
+"columns": 8.0,
+"content_height": 217.0,
+"count": 8.0,
+"crop": {
+"h": 217.0,
+"w": 209.0,
+"x": 0.0,
+"y": 3.0
+},
+"fps": 8.0,
+"frame_height": 220.0,
+"frame_width": 220.0,
+"offset_x": 6.0,
+"path": "res://assets/spritecook/animations/thorn_ballista_attack.png",
+"rows": 1.0
+},
+"idle": {
+"bottom_padding": 0.0,
+"columns": 8.0,
+"content_height": 197.0,
+"count": 8.0,
+"crop": {
+"h": 197.0,
+"w": 197.0,
+"x": 11.0,
+"y": 23.0
+},
+"fps": 8.0,
+"frame_height": 220.0,
+"frame_width": 220.0,
+"offset_x": 1.0,
+"path": "res://assets/spritecook/animations/thorn_ballista_idle.png",
+"rows": 1.0
+}
+}
+projectile_speed = 1350.0

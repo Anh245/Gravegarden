@@ -1,0 +1,54 @@
+[gd_resource type="Resource" script_class="GardenBuildingData" format=3 uid="uid://c3aspov0amurb"]
+
+[ext_resource type="Script" uid="uid://ciuibc3ejc68i" path="res://scripts/data/building_data.gd" id="1_70k3b"]
+[ext_resource type="Texture2D" uid="uid://bwodd3jb56iho" path="res://assets/spritecook/buildings/ossuary_xbow.png" id="2_tj7ep"]
+
+[resource]
+script = ExtResource("1_70k3b")
+id = "ossuary_xbow"
+title = "Ossuary Xbow"
+description = "Rapid bone bolts punish fast enemies."
+cost = 280
+unlock_wave = 2
+texture = ExtResource("2_tj7ep")
+attack_damage = 32.0
+attack_interval = 0.5
+attack_range = 570.0
+animations = {
+"attack": {
+"bottom_padding": 0.0,
+"columns": 8.0,
+"content_height": 109.0,
+"count": 8.0,
+"crop": {
+"h": 109.0,
+"w": 100.0,
+"x": 6.0,
+"y": 3.0
+},
+"fps": 8.0,
+"frame_height": 112.0,
+"frame_width": 112.0,
+"offset_x": 0.0,
+"path": "res://assets/spritecook/animations/ossuary_xbow_attack.png",
+"rows": 1.0
+},
+"idle": {
+"bottom_padding": 0.0,
+"columns": 8.0,
+"content_height": 111.0,
+"count": 8.0,
+"crop": {
+"h": 111.0,
+"w": 100.0,
+"x": 6.0,
+"y": 1.0
+},
+"fps": 8.0,
+"frame_height": 112.0,
+"frame_width": 112.0,
+"offset_x": 0.0,
+"path": "res://assets/spritecook/animations/ossuary_xbow_idle.png",
+"rows": 1.0
+}
+}

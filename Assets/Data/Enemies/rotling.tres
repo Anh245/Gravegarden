@@ -1,0 +1,77 @@
+[gd_resource type="Resource" script_class="GardenEnemyData" format=3 uid="uid://b7d3ohntq04n4"]
+
+[ext_resource type="Texture2D" uid="uid://dw7gorpl21yw6" path="res://assets/spritecook/enemies/rotling/base.png" id="1_0w330"]
+[ext_resource type="Script" uid="uid://bmwumi5ds27yb" path="res://scripts/data/enemy_data.gd" id="1_5tjwk"]
+
+[resource]
+script = ExtResource("1_5tjwk")
+id = "rotling"
+title = "Rotling"
+speed = 64.0
+sprite_scale = 2.0
+base_texture = ExtResource("1_0w330")
+animations = {
+"attack": {
+"bottom_padding": 0.0,
+"columns": 8.0,
+"content_height": 90.0,
+"count": 8.0,
+"crop": {
+"h": 90.0,
+"w": 85.0,
+"x": 8.0,
+"y": 8.0
+},
+"fps": 8.0,
+"frame_height": 98.0,
+"frame_width": 98.0,
+"offset_x": -1.0,
+"path": "res://assets/spritecook/animations/rotling_attack.png",
+"rows": 1.0
+},
+"death": {
+"columns": 8.0,
+"count": 8.0,
+"fps": 8.0,
+"frame_height": 94.0,
+"frame_width": 94.0,
+"path": "res://assets/spritecook/enemies/rotling/death.png",
+"rows": 1.0
+},
+"idle": {
+"columns": 8.0,
+"count": 8.0,
+"fps": 8.0,
+"frame_height": 94.0,
+"frame_width": 94.0,
+"path": "res://assets/spritecook/enemies/rotling/idle.png",
+"rows": 1.0
+},
+"walk_down": {
+"columns": 8.0,
+"count": 8.0,
+"fps": 8.0,
+"frame_height": 94.0,
+"frame_width": 94.0,
+"path": "res://assets/spritecook/enemies/rotling/walk_down.png",
+"rows": 1.0
+},
+"walk_right": {
+"columns": 8.0,
+"count": 8.0,
+"fps": 8.0,
+"frame_height": 94.0,
+"frame_width": 94.0,
+"path": "res://assets/spritecook/enemies/rotling/walk_right.png",
+"rows": 1.0
+},
+"walk_up": {
+"columns": 8.0,
+"count": 8.0,
+"fps": 8.0,
+"frame_height": 94.0,
+"frame_width": 94.0,
+"path": "res://assets/spritecook/enemies/rotling/walk_up.png",
+"rows": 1.0
+}
+}

@@ -1,0 +1,58 @@
+[gd_resource type="Resource" script_class="GardenBuildingData" format=3 uid="uid://dv8kxsmmn1o62"]
+
+[ext_resource type="Script" uid="uid://ciuibc3ejc68i" path="res://scripts/data/building_data.gd" id="1_mos1l"]
+[ext_resource type="Texture2D" uid="uid://bwo7jeat2oxkb" path="res://assets/spritecook/buildings/soul_distillery.png" id="2_fkbud"]
+
+[resource]
+script = ExtResource("1_mos1l")
+id = "soul_distillery"
+title = "Soul Distillery"
+description = "A spirit workshop with generous production and storage."
+role = "producer"
+cost = 400
+unlock_wave = 3
+footprint = 2
+texture = ExtResource("2_fkbud")
+attack_damage = 0.0
+attack_range = 0.0
+production_rate = 1.66666666666667
+storage = 3000.0
+tint = Color(0.8901961, 0.7254902, 0.36862746, 1)
+animations = {
+"attack": {
+"bottom_padding": 0.0,
+"columns": 8.0,
+"content_height": 640.0,
+"count": 8.0,
+"crop": {
+"h": 640.0,
+"w": 423.0,
+"x": 108.0,
+"y": 0.0
+},
+"fps": 8.0,
+"frame_height": 640.0,
+"frame_width": 640.0,
+"offset_x": 1.0,
+"path": "res://assets/spritecook/animations/soul_distillery_attack.png",
+"rows": 1.0
+},
+"idle": {
+"bottom_padding": 0.0,
+"columns": 8.0,
+"content_height": 640.0,
+"count": 8.0,
+"crop": {
+"h": 640.0,
+"w": 423.0,
+"x": 108.0,
+"y": 0.0
+},
+"fps": 8.0,
+"frame_height": 640.0,
+"frame_width": 640.0,
+"offset_x": 1.0,
+"path": "res://assets/spritecook/animations/soul_distillery_idle.png",
+"rows": 1.0
+}
+}

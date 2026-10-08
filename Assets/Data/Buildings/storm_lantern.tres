@@ -1,0 +1,57 @@
+[gd_resource type="Resource" script_class="GardenBuildingData" format=3 uid="uid://lc8ny38rntmy"]
+
+[ext_resource type="Script" uid="uid://ciuibc3ejc68i" path="res://scripts/data/building_data.gd" id="1_wigr1"]
+[ext_resource type="Texture2D" uid="uid://c6xqyrvoy7dnq" path="res://assets/spritecook/buildings/storm_lantern.png" id="2_h7mp2"]
+
+[resource]
+script = ExtResource("1_wigr1")
+id = "storm_lantern"
+title = "Storm Lantern"
+description = "Spirit lightning jumps between up to three enemies."
+role = "chain"
+cost = 540
+unlock_wave = 4
+texture = ExtResource("2_h7mp2")
+attack_damage = 42.0
+attack_interval = 1.3
+attack_range = 460.0
+tint = Color(0.45, 0.85, 1, 1)
+visual_scale = 1.15
+animations = {
+"attack": {
+"bottom_padding": 0.0,
+"columns": 8.0,
+"content_height": 218.0,
+"count": 8.0,
+"crop": {
+"h": 218.0,
+"w": 96.0,
+"x": 62.0,
+"y": 2.0
+},
+"fps": 8.0,
+"frame_height": 220.0,
+"frame_width": 220.0,
+"offset_x": 0.0,
+"path": "res://assets/spritecook/animations/storm_lantern_attack.png",
+"rows": 1.0
+},
+"idle": {
+"bottom_padding": 1.0,
+"columns": 8.0,
+"content_height": 216.0,
+"count": 8.0,
+"crop": {
+"h": 216.0,
+"w": 98.0,
+"x": 61.0,
+"y": 3.0
+},
+"fps": 8.0,
+"frame_height": 220.0,
+"frame_width": 220.0,
+"offset_x": 0.0,
+"path": "res://assets/spritecook/animations/storm_lantern_idle.png",
+"rows": 1.0
+}
+}
