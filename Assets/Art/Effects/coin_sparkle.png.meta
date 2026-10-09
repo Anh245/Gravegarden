@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: c8e64974b9d497c4ca6a8cea3baca237
+guid: 2f43b5b8e1cb11a4b9c95aea7557feb4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5872944728414405005
-    second: leaf_shard_0
+      213: -238058143032828660
+    second: coin_sparkle_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -128,13 +128,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: leaf_shard_0
+      name: coin_sparkle_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 15
-        height: 16
+        width: 14
+        height: 15
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,8 +143,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d81c4a24d14e08150800000000000000
-      internalID: 5872944728414405005
+      spriteID: c0d93a4516f32bcf0800000000000000
+      internalID: -238058143032828660
       vertices: []
       indices: 
       edges: []
@@ -153,7 +153,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -163,7 +163,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      leaf_shard_0: 5872944728414405005
+      coin_sparkle_0: -238058143032828660
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

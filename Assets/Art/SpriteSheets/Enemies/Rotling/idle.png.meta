@@ -1,31 +1,31 @@
 fileFormatVersion: 2
-guid: d6450b3034d3dfe40a8af94993a7169c
+guid: b37beb5b656291044867495a5fdf8c38
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1621381126444514259
-    second: bone_lily_attack_0
+      213: 8793639957104055765
+    second: idle_0
   - first:
-      213: 2944836541056728468
-    second: bone_lily_attack_1
+      213: 6084859605308855041
+    second: idle_1
   - first:
-      213: 5052783225580478359
-    second: bone_lily_attack_2
+      213: 8603369663158992956
+    second: idle_2
   - first:
-      213: -3050592447348586180
-    second: bone_lily_attack_3
+      213: -5906421172241655209
+    second: idle_3
   - first:
-      213: 2279102309842253620
-    second: bone_lily_attack_4
+      213: 5704420531145803721
+    second: idle_4
   - first:
-      213: -5981469233668362095
-    second: bone_lily_attack_5
+      213: -148617073940163930
+    second: idle_5
   - first:
-      213: -1538438596622476328
-    second: bone_lily_attack_6
+      213: 4729606205655721961
+    second: idle_6
   - first:
-      213: 2044268663849318931
-    second: bone_lily_attack_7
+      213: -2073685336235588006
+    second: idle_7
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -58,7 +58,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -98,7 +98,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -149,177 +149,177 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: bone_lily_attack_0
+      name: idle_0
       rect:
         serializedVersion: 2
-        x: 37
-        y: 0
-        width: 86
-        height: 140
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 3db7f374b8d408610800000000000000
-      internalID: 1621381126444514259
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: bone_lily_attack_1
-      rect:
-        serializedVersion: 2
-        x: 196
-        y: 0
-        width: 87
-        height: 140
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 49db64f4b392ed820800000000000000
-      internalID: 2944836541056728468
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: bone_lily_attack_2
-      rect:
-        serializedVersion: 2
-        x: 355
+        x: 0
         y: 0
         width: 94
-        height: 153
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        height: 94
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 79fd6c7a2971f1640800000000000000
-      internalID: 5052783225580478359
+      spriteID: 5d55ed543f8490a70800000000000000
+      internalID: 8793639957104055765
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: bone_lily_attack_3
+      name: idle_1
       rect:
         serializedVersion: 2
-        x: 514
+        x: 94
         y: 0
-        width: 96
-        height: 159
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 94
+        height: 94
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c394c45f45e1aa5d0800000000000000
-      internalID: -3050592447348586180
+      spriteID: 103de827293c17450800000000000000
+      internalID: 6084859605308855041
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: bone_lily_attack_4
+      name: idle_2
       rect:
         serializedVersion: 2
-        x: 674
+        x: 188
         y: 0
-        width: 91
-        height: 155
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 94
+        height: 94
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4377be0c97ff0af10800000000000000
-      internalID: 2279102309842253620
+      spriteID: c30c6f3402f456770800000000000000
+      internalID: 8603369663158992956
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: bone_lily_attack_5
+      name: idle_3
       rect:
         serializedVersion: 2
-        x: 835
+        x: 282
         y: 0
-        width: 89
-        height: 160
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 94
+        height: 94
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 190f4445c6d8dfca0800000000000000
-      internalID: -5981469233668362095
+      spriteID: 75a90b6cc3d280ea0800000000000000
+      internalID: -5906421172241655209
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: bone_lily_attack_6
+      name: idle_4
       rect:
         serializedVersion: 2
-        x: 996
+        x: 376
         y: 0
-        width: 88
-        height: 157
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 94
+        height: 94
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8db11935f3e56aae0800000000000000
-      internalID: -1538438596622476328
+      spriteID: 9c70460ff3c2a2f40800000000000000
+      internalID: 5704420531145803721
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: bone_lily_attack_7
+      name: idle_5
       rect:
         serializedVersion: 2
-        x: 1157
+        x: 470
         y: 0
-        width: 86
-        height: 151
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 94
+        height: 94
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 31a733ec483be5c10800000000000000
-      internalID: 2044268663849318931
+      spriteID: 6a21d340f8100fdf0800000000000000
+      internalID: -148617073940163930
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idle_6
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 0
+        width: 94
+        height: 94
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e7a79719cfe2a140800000000000000
+      internalID: 4729606205655721961
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idle_7
+      rect:
+        serializedVersion: 2
+        x: 658
+        y: 0
+        width: 94
+        height: 94
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a56cdbd6c2ac833e0800000000000000
+      internalID: -2073685336235588006
       vertices: []
       indices: 
       edges: []
@@ -328,7 +328,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: af698c81ba87b4a4d964bbdbc98bd9f0
     internalID: 0
     vertices: []
     indices: 
@@ -336,16 +336,18 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":94.0,"y":94.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      bone_lily_attack_0: 1621381126444514259
-      bone_lily_attack_1: 2944836541056728468
-      bone_lily_attack_2: 5052783225580478359
-      bone_lily_attack_3: -3050592447348586180
-      bone_lily_attack_4: 2279102309842253620
-      bone_lily_attack_5: -5981469233668362095
-      bone_lily_attack_6: -1538438596622476328
-      bone_lily_attack_7: 2044268663849318931
+      idle_0: 8793639957104055765
+      idle_1: 6084859605308855041
+      idle_2: 8603369663158992956
+      idle_3: -5906421172241655209
+      idle_4: 5704420531145803721
+      idle_5: -148617073940163930
+      idle_6: 4729606205655721961
+      idle_7: -2073685336235588006
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 6c01dee4c76330342a8caf609c18384e
+guid: cd9bbaf3702f9914d86b363af4cc2c00
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7871332744829846710
-    second: poison_droplet_0
+      213: 183746630935937157
+    second: mushroom_spore_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -128,12 +128,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: poison_droplet_0
+      name: mushroom_spore_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 9
+        width: 14
         height: 13
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -143,8 +143,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a4b348b929863c290800000000000000
-      internalID: -7871332744829846710
+      spriteID: 5808c99569ccc8200800000000000000
+      internalID: 183746630935937157
       vertices: []
       indices: 
       edges: []
@@ -153,7 +153,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -163,7 +163,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      poison_droplet_0: -7871332744829846710
+      mushroom_spore_0: 183746630935937157
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
