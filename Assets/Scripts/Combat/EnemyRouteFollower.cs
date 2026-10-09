@@ -6,10 +6,14 @@ public class EnemyRouteFollower : MonoBehaviour
     [SerializeField] private EnemyRoute route;
     [SerializeField,Min(0.01f)] private float moveSpeed = 0.64f;
 
+    //đọc độ dịch chuyển
+    public Vector3 FrameMovement { get; private set; }
 
     private int targetIndex;
     private bool reachedEnd;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    //tấn công được đọc trạng thái đến đích mà không được sửa biến reachedEnd
+    public bool HasReachedEnd => reachedEnd;
     void Start()
     {
         if(route == null || !route.IsValid)
@@ -31,11 +35,13 @@ public class EnemyRouteFollower : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        FrameMovement = Vector3.zero;
+
         if (reachedEnd)
-        {
             return;
-        } 
-        
+
+        Vector3 positionBeforeMove = transform.position;
+
         float remainingDistance = moveSpeed * Time.deltaTime;
         // Di chuyển đến điểm tiếp theo (cho phép di chuyển nhiều hơn 1 điểm trong 1 frame nếu cần)
 
@@ -63,6 +69,14 @@ public class EnemyRouteFollower : MonoBehaviour
 
                 remainingDistance = 0f;
             }
+        }
+
+        FrameMovement = transform.position - positionBeforeMove;
+
+        if (targetIndex >= route.PointCount)
+        {
+            reachedEnd = true;
+            Debug.Log("Rotling đã đến đích.", this);
         }
     }
 }

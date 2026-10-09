@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4112611362996417896}
   - component: {fileID: 4992614950006953944}
+  - component: {fileID: 2293004348841754390}
   m_Layer: 0
   m_Name: Rotling
   m_TagString: Untagged
@@ -47,6 +48,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyRouteFollower
   route: {fileID: 0}
   moveSpeed: 0.64
+--- !u!114 &2293004348841754390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7647734777478730837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a891628b2b4569c4a969757d976b72d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySiegeAttack
+  target: {fileID: 0}
+  damage: 1
+  firstHitDelay: 0.65
+  attackInterval: 1.6
 --- !u!1 &9058252428592661500
 GameObject:
   m_ObjectHideFlags: 0
@@ -57,6 +74,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6590369558754801747}
   - component: {fileID: 2217978942922945055}
+  - component: {fileID: 7884578581713143276}
   m_Layer: 0
   m_Name: Visual
   m_TagString: Untagged
@@ -74,7 +92,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4112611362996417896}
@@ -128,7 +146,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 20
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: a42ad81814ea11d4e92f5a26ff2ee973, type: 3}
+  m_Sprite: {fileID: -350773885812749289, guid: 9e4a780143b74c242bb67cb5e7cd8f8a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -139,3 +157,53 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!114 &7884578581713143276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9058252428592661500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b353cf2a139f8e94a91f846ecc7e2962, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySpriteAnimator
+  walkDown:
+  - {fileID: -2934438944226731720, guid: 85b7da9ac90fb6c46836c21cc92f0fc5, type: 3}
+  - {fileID: 2601514537129177563, guid: 85b7da9ac90fb6c46836c21cc92f0fc5, type: 3}
+  - {fileID: -6021245859881801256, guid: 85b7da9ac90fb6c46836c21cc92f0fc5, type: 3}
+  - {fileID: 6933450678567269769, guid: 85b7da9ac90fb6c46836c21cc92f0fc5, type: 3}
+  - {fileID: 6611497878597077051, guid: 85b7da9ac90fb6c46836c21cc92f0fc5, type: 3}
+  - {fileID: -7717474246031703851, guid: 85b7da9ac90fb6c46836c21cc92f0fc5, type: 3}
+  - {fileID: -4035409334605507318, guid: 85b7da9ac90fb6c46836c21cc92f0fc5, type: 3}
+  - {fileID: 6735734629355433481, guid: 85b7da9ac90fb6c46836c21cc92f0fc5, type: 3}
+  walkRight:
+  - {fileID: -350773885812749289, guid: 9e4a780143b74c242bb67cb5e7cd8f8a, type: 3}
+  - {fileID: -6404821201272558385, guid: 9e4a780143b74c242bb67cb5e7cd8f8a, type: 3}
+  - {fileID: -5378578620819458117, guid: 9e4a780143b74c242bb67cb5e7cd8f8a, type: 3}
+  - {fileID: 5827144690303107238, guid: 9e4a780143b74c242bb67cb5e7cd8f8a, type: 3}
+  - {fileID: -9018284070104763478, guid: 9e4a780143b74c242bb67cb5e7cd8f8a, type: 3}
+  - {fileID: 2559815529168119784, guid: 9e4a780143b74c242bb67cb5e7cd8f8a, type: 3}
+  - {fileID: -580232501186132869, guid: 9e4a780143b74c242bb67cb5e7cd8f8a, type: 3}
+  - {fileID: -7990176433155287735, guid: 9e4a780143b74c242bb67cb5e7cd8f8a, type: 3}
+  walkUp:
+  - {fileID: -4778624461764053770, guid: b104fb740ca0766428738fed74150141, type: 3}
+  - {fileID: -9096989396093648339, guid: b104fb740ca0766428738fed74150141, type: 3}
+  - {fileID: -8467170227996590455, guid: b104fb740ca0766428738fed74150141, type: 3}
+  - {fileID: -8745426631189603992, guid: b104fb740ca0766428738fed74150141, type: 3}
+  - {fileID: 4428644091572420888, guid: b104fb740ca0766428738fed74150141, type: 3}
+  - {fileID: -7119738755306937642, guid: b104fb740ca0766428738fed74150141, type: 3}
+  - {fileID: 2370903508304181667, guid: b104fb740ca0766428738fed74150141, type: 3}
+  - {fileID: -3889763168057555790, guid: b104fb740ca0766428738fed74150141, type: 3}
+  framesPerSecond: 4
+  directionBias: 1.25
+  attack:
+  - {fileID: -1794180937274001914, guid: 7df20564842ac334490dc04f85db0ec2, type: 3}
+  - {fileID: 6363977900797934599, guid: 7df20564842ac334490dc04f85db0ec2, type: 3}
+  - {fileID: -4571998151419899357, guid: 7df20564842ac334490dc04f85db0ec2, type: 3}
+  - {fileID: -2334013636625542325, guid: 7df20564842ac334490dc04f85db0ec2, type: 3}
+  - {fileID: -4692039458921780139, guid: 7df20564842ac334490dc04f85db0ec2, type: 3}
+  - {fileID: 4227532580561279620, guid: 7df20564842ac334490dc04f85db0ec2, type: 3}
+  - {fileID: -8654257060454519539, guid: 7df20564842ac334490dc04f85db0ec2, type: 3}
+  - {fileID: 1791679355976677044, guid: 7df20564842ac334490dc04f85db0ec2, type: 3}
