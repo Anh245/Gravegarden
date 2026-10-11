@@ -110,7 +110,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   maxHealth: 60
+  bounty: 8
   aimPoint: {fileID: 8395405166001651523}
+  visualAnimator: {fileID: 2749389223587521220}
+  deathClip: {fileID: 7400000, guid: e229ac724a39e9c43b796e5b93147aa5, type: 2}
+  wallet: {fileID: 0}
+  defendedHall: {fileID: 0}
 --- !u!1 &9058252428592661500
 GameObject:
   m_ObjectHideFlags: 0
