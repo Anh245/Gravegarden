@@ -1,81 +1,117 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyRouteFollower : MonoBehaviour
 {
     [SerializeField] private EnemyRoute route;
-    [SerializeField,Min(0.01f)] private float moveSpeed = 0.64f;
+    [SerializeField, Min(0.01f)] private float moveSpeed = 0.64f;
 
-    //đọc độ dịch chuyển
-    public Vector3 FrameMovement { get; private set; }
+    [Tooltip("Khoảng cách xuất phát dọc theo tuyến. Dùng để kiểm thử.")]
+    [SerializeField, Min(0f)] private float startingDistance = 0f;
 
     private int targetIndex;
     private bool reachedEnd;
 
-    //tấn công được đọc trạng thái đến đích mà không được sửa biến reachedEnd
-    public bool HasReachedEnd => reachedEnd;
-    void Start()
-    {
-        if(route == null || !route.IsValid)
-        {
-            Debug.LogError(
-                "Chưa gán EnemyRoute hợp lệ cho EnemyRouteFollower.",
-                this
-            );
+    private float totalLength;
+    private float distanceTravelled;
 
+    public Vector3 FrameMovement { get; private set; }
+    public bool HasReachedEnd => reachedEnd;
+    public bool IsReady { get; private set; }
+
+    public float Progress =>
+        totalLength > 0f
+            ? Mathf.Clamp01(distanceTravelled / totalLength)
+            : 0f;
+
+    private void Start()
+    {
+        if (route == null || !route.IsValid)
+        {
+            Debug.LogError("Địch chưa có tuyến hợp lệ.", this);
+            enabled = false;
+            return;
+        }
+
+        totalLength = 0f;
+
+        for (int i = 1; i < route.PointCount; i++)
+        {
+            totalLength += Vector3.Distance(
+                route.GetPoint(i - 1),
+                route.GetPoint(i)
+            );
+        }
+
+        if (totalLength <= 0.0001f)
+        {
+            Debug.LogError("Tuyến đường có chiều dài bằng 0.", this);
             enabled = false;
             return;
         }
 
         transform.position = route.GetPoint(0);
         targetIndex = 1;
+        distanceTravelled = 0f;
         reachedEnd = false;
+        FrameMovement = Vector3.zero;
+
+        // Đặt địch tại một khoảng cách xác định trên tuyến.
+        Advance(Mathf.Clamp(startingDistance, 0f, totalLength));
+
+        IsReady = true;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         FrameMovement = Vector3.zero;
 
-        if (reachedEnd)
+        if (!IsReady || reachedEnd)
             return;
 
-        Vector3 positionBeforeMove = transform.position;
+        Vector3 beforeMove = transform.position;
 
-        float remainingDistance = moveSpeed * Time.deltaTime;
-        // Di chuyển đến điểm tiếp theo (cho phép di chuyển nhiều hơn 1 điểm trong 1 frame nếu cần)
+        Advance(moveSpeed * Time.deltaTime);
 
-        //Khong mat quang duong con lai
+        FrameMovement = transform.position - beforeMove;
+    }
 
-        while (remainingDistance > 0f && targetIndex < route.PointCount) {
-            
-            Vector3 target = route.GetPoint(targetIndex);
-            float distance = Vector3.Distance(transform.position, target);
+    private void Advance(float remainingDistance)
+    {
+        while (remainingDistance > 0f &&
+               targetIndex < route.PointCount)
+        {
+            Vector3 destination = route.GetPoint(targetIndex);
 
-            if(distance <= remainingDistance)
+            float segmentRemaining = Vector3.Distance(
+                transform.position,
+                destination
+            );
+
+            if (segmentRemaining <= remainingDistance)
             {
-                // Di chuyển đến điểm tiếp theo
-                transform.position = target;
-                remainingDistance -= distance;
+                transform.position = destination;
+                distanceTravelled += segmentRemaining;
+                remainingDistance -= segmentRemaining;
                 targetIndex++;
             }
             else
             {
                 transform.position = Vector3.MoveTowards(
                     transform.position,
-                    target,
+                    destination,
                     remainingDistance
                 );
 
+                distanceTravelled += remainingDistance;
                 remainingDistance = 0f;
             }
         }
 
-        FrameMovement = transform.position - positionBeforeMove;
-
-        if (targetIndex >= route.PointCount)
+        if (!reachedEnd && targetIndex >= route.PointCount)
         {
             reachedEnd = true;
+            distanceTravelled = totalLength;
+
             Debug.Log("Rotling đã đến đích.", this);
         }
     }
