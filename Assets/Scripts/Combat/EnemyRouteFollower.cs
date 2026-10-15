@@ -115,4 +115,9 @@ public class EnemyRouteFollower : MonoBehaviour
             Debug.Log("Rotling đã đến đích.", this);
         }
     }
+    public void Configure(EnemyRoute newRoute)
+    {
+        route = newRoute;
+        startingDistance = 0f;
+    }
 }

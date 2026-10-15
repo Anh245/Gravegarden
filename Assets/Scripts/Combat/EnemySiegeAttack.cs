@@ -31,21 +31,34 @@ public class EnemySiegeAttack : MonoBehaviour
         movement = GetComponent<EnemyRouteFollower>();
        
 
-        if (target == null)
-        {
-            Debug.LogError(
-                    "Chưa gán TownHallHealth cho EnemySiegeAttack.",
-                    this
-            );
-
-            enabled = false;
-        }
 
        
     }
 
+    public void Configure(TownHallHealth newTarget)
+    {
+        target = newTarget;
+    }
+
+    private void Start()
+    {
+        if (target == null) {
+            Debug.LogError(
+                    "Rotling chua duoc gan nha chinh", this
+
+                );
+
+
+            enabled = false;
+
+        
+        }
+    }
+
     private void Update()
     {
+        if (target == null)
+            return;
         if (target.IsDestroyed)
         {
             //Dung di chuyen khi nha chinh bi pha huy
@@ -53,7 +66,7 @@ public class EnemySiegeAttack : MonoBehaviour
             return;
         }
 
-        if (!movement.HasReachedEnd)
+        if (!movement.HasReachedEnd || !movement.IsReady)
             return;
 
         if (!attackStarted)

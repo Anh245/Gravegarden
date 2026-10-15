@@ -24,4 +24,16 @@ public class PlayerWallet : MonoBehaviour
         Debug.Log($"Nhan {amount} xu. So du hien tai : {Banlance}", this);
 
     }
+
+    //Phuong thuc mua ban
+    public bool TrySpend(int amount)
+    {
+        if(amount <= 0 || Banlance < amount)
+        {
+            return false;
+        }
+
+        Banlance -= amount;
+        return true;
+    }
 }

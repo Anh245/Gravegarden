@@ -18,7 +18,7 @@ public class BoneLilyTower : MonoBehaviour
     private float searchDelay;
     private EnemyHealth currentTarget;
 
-    private void Awake()
+    private void Start()
     {
         if (visualAnimator == null ||
             muzzle == null ||
@@ -146,5 +146,10 @@ public class BoneLilyTower : MonoBehaviour
                 currentTarget.AimPosition
             );
         }
+    }
+
+    public void Configure(TownHallHealth newDefendedHall)
+    {
+        defendedHall = newDefendedHall;
     }
 }

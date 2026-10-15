@@ -12,7 +12,7 @@ public class TownHallHealthView : MonoBehaviour
 
     [SerializeField] private Slider healthBar;
     [SerializeField] private TMP_Text valueText;
-    [SerializeField] private GameObject defeatPanel;
+
 
     [SerializeField] private float verticalOffset = -60f;
 
@@ -20,8 +20,8 @@ public class TownHallHealthView : MonoBehaviour
     {
         if (health == null || anchor == null ||
             worldCamera == null || canvas == null ||
-            healthBar == null || valueText == null ||
-            defeatPanel == null)
+            healthBar == null || valueText == null
+            )
         {
             Debug.LogError(
                 "TownHallHealthView chưa được gán đủ tham chiếu.",
@@ -35,7 +35,7 @@ public class TownHallHealthView : MonoBehaviour
         healthBar.minValue = 0;
         healthBar.maxValue = health.MaxHealth;
         healthBar.wholeNumbers = true;
-        defeatPanel.SetActive(false);
+        
     }
 
     private void LateUpdate()
@@ -58,9 +58,6 @@ public class TownHallHealthView : MonoBehaviour
             healthBar.transform.position = screenPoint;
         }
 
-        if (health.IsDestroyed && !defeatPanel.activeSelf)
-        {
-            defeatPanel.SetActive(true);
-        }
+       
     }
 }

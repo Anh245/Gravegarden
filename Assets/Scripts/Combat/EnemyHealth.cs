@@ -28,6 +28,8 @@ public class EnemyHealth : MonoBehaviour
 
     public float CurrentHealth { get; private set; }
 
+    public bool HasDied => deathStarted;
+
     public bool IsAlive =>
         gameObject.activeInHierarchy && CurrentHealth > 0f;
 
@@ -41,15 +43,23 @@ public class EnemyHealth : MonoBehaviour
         siege = GetComponent<EnemySiegeAttack>();
         animationDriver =
             GetComponentInChildren<EnemyAnimatorDriver>();
+        
+    }
+    public void Configure(PlayerWallet newWallet, TownHallHealth newDefendedHall)
+    {
+        wallet = newWallet;
+        defendedHall = newDefendedHall;
+    }
 
-
+    private void Start()
+    {
         if (visualAnimator == null ||
-            deathClip == null ||
-            wallet == null ||
-            defendedHall == null ||
-            movement == null ||
-            siege == null ||
-            animationDriver == null)
+        deathClip == null ||
+        wallet == null ||
+        defendedHall == null ||
+        movement == null ||
+        siege == null ||
+        animationDriver == null)
         {
             Debug.LogError(
                 "EnemyHealth chưa được gán đủ tham chiếu.",
@@ -60,9 +70,11 @@ public class EnemyHealth : MonoBehaviour
             return;
         }
 
-        int deathState = Animator.StringToHash("Base Layer.Death");
+        int deathState =
+        Animator.StringToHash("Base Layer.Death");
 
-        if (!visualAnimator.HasState(0, deathState)){
+        if (!visualAnimator.HasState(0, deathState))
+        {
             Debug.LogError(
                 "Animator của Rotling chưa có state Death.",
                 this
@@ -70,7 +82,6 @@ public class EnemyHealth : MonoBehaviour
 
             enabled = false;
         }
-        
     }
 
     public void TakeDamage(float amount)
