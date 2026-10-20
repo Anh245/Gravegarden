@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    [Header("Thong so")]
-    [SerializeField, Min(1f)] private float maxHealth = 60f;
+    [Header("Dữ liệu địch")]
+    [SerializeField]
+    private EnemyDefinition definition;
 
-    [SerializeField, Min(0)] private int bounty = 8;
+    private float maxHealth;
+    private int bounty;
+
+    public EnemyDefinition Definition => definition;
 
     [Header("Tham chieu trong prefab")]
     [SerializeField] private Transform aimPoint;
@@ -38,12 +42,28 @@ public class EnemyHealth : MonoBehaviour
 
     private void Awake()
     {
-        CurrentHealth = maxHealth;
         movement = GetComponent<EnemyRouteFollower>();
         siege = GetComponent<EnemySiegeAttack>();
+
         animationDriver =
             GetComponentInChildren<EnemyAnimatorDriver>();
-        
+
+        if (definition == null || !definition.IsValid)
+        {
+            Debug.LogError(
+                "EnemyHealth thiếu Definition " +
+                "hoặc dữ liệu địch không hợp lệ.",
+                this
+            );
+
+            enabled = false;
+            return;
+        }
+
+        maxHealth = definition.MaxHealth;
+        bounty = definition.Bounty;
+
+        CurrentHealth = maxHealth;
     }
     public void Configure(PlayerWallet newWallet, TownHallHealth newDefendedHall)
     {

@@ -5,12 +5,12 @@ using UnityEngine;
 public class EnemySiegeAttack : MonoBehaviour
 {
     [SerializeField] private TownHallHealth target;
-    [SerializeField, Min(1)] private int damage = 1;
-    [SerializeField, Min(0.01f)] private float firstHitDelay = 0.65f;
-    [SerializeField, Min(0.01f)] private float attackInterval = 1.6f;
 
+    private int damage;
+    private float firstHitDelay;
+    private float attackInterval;
     //Set up animation for attack
-    
+
 
 
     private EnemyRouteFollower movement;
@@ -42,16 +42,33 @@ public class EnemySiegeAttack : MonoBehaviour
 
     private void Start()
     {
-        if (target == null) {
+        EnemyHealth health = GetComponent<EnemyHealth>();
+        EnemyDefinition data = health ! != null ? health.Definition : null;
+
+
+        if (data == null || !data.IsValid)
+        {
             Debug.LogError(
-                    "Rotling chua duoc gan nha chinh", this
-
-                );
-
+                "EnemySiegeAttack không tìm thấy dữ liệu địch hợp lệ.",
+                this
+            );
 
             enabled = false;
+            return;
+        }
 
-        
+        damage = data.SiegeDamage;
+        firstHitDelay = data.FirstHitDelay;
+        attackInterval = data.AttackInterval;
+
+        if (target == null)
+        {
+            Debug.LogError(
+                "Rotling chưa được gán nhà chính.",
+                this
+            );
+
+            enabled = false;
         }
     }
 

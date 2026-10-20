@@ -46,14 +46,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6971db80e775e334c9f3b37c79701e48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BoneLilyTower
+  definition: {fileID: 11400000, guid: 9b25ca8a885c35641894b7997433d66a, type: 2}
   visualAnimator: {fileID: 567443980122193959}
   muzzle: {fileID: 779786612864407290}
   projectilePrefab: {fileID: 4425546011564858738, guid: e4145258c2643d945828670ae50756d2, type: 3}
-  target: {fileID: 0}
   defendedHall: {fileID: 0}
-  attackRange: 3.6
-  attackinterval: 0.8
-  damage: 18
+  retrySearchInterval: 0.1
 --- !u!1 &5411529286580291257
 GameObject:
   m_ObjectHideFlags: 0

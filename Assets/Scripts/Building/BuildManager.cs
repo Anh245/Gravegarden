@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,14 +10,12 @@ public class BuildManager : MonoBehaviour
     [SerializeField] private TownHallHealth defendedHall;
     [SerializeField] private Transform buildingsParent;
 
-    [Header("Công trình")]
-    [SerializeField] private BoneLilyTower boneLilyPrefab;
-
-    [SerializeField, Min(1)]
-    private int boneLilyCost = 150;
+    [Header("Danh sách tháp")]
+    [SerializeField] private BoneLilyTower[] towerPrefabs;
 
     [Header("Giao diện")]
     [SerializeField] private GameObject buildPanel;
+    [SerializeField] private TMP_Dropdown buildingDropdown;
     [SerializeField] private TMP_Text infoText;
     [SerializeField] private Button buildButton;
     [SerializeField] private Button closeButton;
@@ -24,15 +23,62 @@ public class BuildManager : MonoBehaviour
     private BuildSlot selectedSlot;
     private bool initialized;
 
-    
+    private int[] buildCosts;
+    private string[] displayNames;
 
     private void Start()
+    {
+        if (!ValidateSetup())
+        {
+            if (buildPanel != null)
+                buildPanel.SetActive(false);
+
+            if (buildButton != null)
+                buildButton.interactable = false;
+
+            enabled = false;
+            return;
+        }
+
+        buildCosts = new int[towerPrefabs.Length];
+        displayNames = new string[towerPrefabs.Length];
+
+        var options = new List<string>();
+
+        for (int i = 0; i < towerPrefabs.Length; i++)
+        {
+            ProjectileTowerDefinition data =
+                towerPrefabs[i].Definition;
+
+            buildCosts[i] = data.BuildCost;
+            displayNames[i] = data.DisplayName;
+
+            options.Add(displayNames[i]);
+        }
+
+        buildingDropdown.ClearOptions();
+        buildingDropdown.AddOptions(options);
+        buildingDropdown.SetValueWithoutNotify(0);
+        buildingDropdown.RefreshShownValue();
+
+        buildingDropdown.onValueChanged.AddListener(
+            OnSelectionChanged
+        );
+
+        buildButton.onClick.AddListener(BuildSelectedSlot);
+        closeButton.onClick.AddListener(ClosePanel);
+
+        initialized = true;
+        ClosePanel();
+    }
+
+    private bool ValidateSetup()
     {
         if (wallet == null ||
             defendedHall == null ||
             buildingsParent == null ||
-            boneLilyPrefab == null ||
             buildPanel == null ||
+            buildingDropdown == null ||
             infoText == null ||
             buildButton == null ||
             closeButton == null)
@@ -42,29 +88,57 @@ public class BuildManager : MonoBehaviour
                 this
             );
 
-            enabled = false;
-            return;
+            return false;
         }
 
-        if (boneLilyCost <= 0 ||
-            !boneLilyPrefab.gameObject.activeSelf ||
-            !boneLilyPrefab.enabled ||
-            !buildingsParent.gameObject.activeInHierarchy)
+        if (!buildingsParent.gameObject.activeInHierarchy)
         {
             Debug.LogError(
-                "Kiểm tra giá xây, prefab Bone Lily và Buildings.",
+                "Object Buildings đang bị tắt.",
                 this
             );
 
-            enabled = false;
-            return;
+            return false;
         }
 
-        buildButton.onClick.AddListener(BuildSelectedSlot);
-        closeButton.onClick.AddListener(ClosePanel);
+        if (towerPrefabs == null || towerPrefabs.Length == 0)
+        {
+            Debug.LogError(
+                "BuildManager chưa có danh sách tháp.",
+                this
+            );
 
-        initialized = true;
-        ClosePanel();
+            return false;
+        }
+
+        foreach (BoneLilyTower prefab in towerPrefabs)
+        {
+            if (prefab == null)
+            {
+                Debug.LogError(
+                    "Danh sách tháp có phần tử chưa được gán.",
+                    this
+                );
+
+                return false;
+            }
+
+            if (!prefab.gameObject.activeSelf ||
+                !prefab.enabled ||
+                prefab.Definition == null ||
+                !prefab.Definition.IsValid)
+            {
+                Debug.LogError(
+                    $"Prefab '{prefab.name}' bị tắt " +
+                    "hoặc thiếu dữ liệu hợp lệ.",
+                    this
+                );
+
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private void Update()
@@ -74,7 +148,7 @@ public class BuildManager : MonoBehaviour
 
         if (defendedHall.IsDestroyed)
         {
-            ClosePanel();
+            StopBuilding();
             return;
         }
 
@@ -101,16 +175,29 @@ public class BuildManager : MonoBehaviour
         }
 
         selectedSlot = slot;
+
         buildPanel.SetActive(true);
+        RefreshPanel();
+    }
+
+    private void OnSelectionChanged(int index)
+    {
+        if (!initialized || !buildPanel.activeSelf)
+            return;
+
         RefreshPanel();
     }
 
     private void RefreshPanel()
     {
-        bool canAfford = wallet.Banlance >= boneLilyCost;
+        int index = buildingDropdown.value;
+        int cost = buildCosts[index];
+
+        bool canAfford = wallet.Banlance >= cost;
 
         infoText.text =
-            $"Giá: {boneLilyCost} tiền\n" +
+            $"{displayNames[index]}\n" +
+            $"Giá: {cost} tiền\n" +
             $"Bạn có: {wallet.Banlance} tiền\n" +
             (canAfford
                 ? "Có thể xây."
@@ -133,15 +220,19 @@ public class BuildManager : MonoBehaviour
             return;
         }
 
-        // Kiểm tra tiền lại ngay khi người chơi xác nhận.
-        if (!wallet.TrySpend(boneLilyCost))
+        int index = buildingDropdown.value;
+
+        BoneLilyTower prefab = towerPrefabs[index];
+        int cost = buildCosts[index];
+
+        if (!wallet.TrySpend(cost))
         {
             RefreshPanel();
             return;
         }
 
         BoneLilyTower tower = Instantiate(
-            boneLilyPrefab,
+            prefab,
             selectedSlot.BuildPosition,
             Quaternion.identity,
             buildingsParent
@@ -156,12 +247,37 @@ public class BuildManager : MonoBehaviour
 
     private void ClosePanel()
     {
+        buildingDropdown.Hide();
+
         selectedSlot = null;
         buildPanel.SetActive(false);
     }
 
+    public void StopBuilding()
+    {
+        initialized = false;
+
+        if (buildButton != null)
+            buildButton.interactable = false;
+
+        if (buildingDropdown != null)
+            buildingDropdown.Hide();
+
+        selectedSlot = null;
+
+        if (buildPanel != null)
+            buildPanel.SetActive(false);
+    }
+
     private void OnDestroy()
     {
+        if (buildingDropdown != null)
+        {
+            buildingDropdown.onValueChanged.RemoveListener(
+                OnSelectionChanged
+            );
+        }
+
         if (buildButton != null)
         {
             buildButton.onClick.RemoveListener(
@@ -175,15 +291,5 @@ public class BuildManager : MonoBehaviour
                 ClosePanel
             );
         }
-    }
-    
-    //Dung xay dung cong trinh khi ket thuc dot
-    public void StopBuilding()
-    {
-        initialized = false;
-
-        buildButton.interactable = false;
-
-        ClosePanel();
     }
 }

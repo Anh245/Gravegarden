@@ -3,7 +3,7 @@ using UnityEngine;
 public class EnemyRouteFollower : MonoBehaviour
 {
     [SerializeField] private EnemyRoute route;
-    [SerializeField, Min(0.01f)] private float moveSpeed = 0.64f;
+    private float moveSpeed;
 
     [Tooltip("Khoảng cách xuất phát dọc theo tuyến. Dùng để kiểm thử.")]
     [SerializeField, Min(0f)] private float startingDistance = 0f;
@@ -25,6 +25,25 @@ public class EnemyRouteFollower : MonoBehaviour
 
     private void Start()
     {
+
+        EnemyHealth health = GetComponent<EnemyHealth>();
+
+        EnemyDefinition data =
+            health != null ? health.Definition : null;
+
+        if (data == null || !data.IsValid)
+        {
+            Debug.LogError(
+                "EnemyRouteFollower không tìm thấy dữ liệu địch hợp lệ.",
+                this
+            );
+
+            enabled = false;
+            return;
+        }
+
+        moveSpeed = data.MoveSpeed;
+
         if (route == null || !route.IsValid)
         {
             Debug.LogError("Địch chưa có tuyến hợp lệ.", this);

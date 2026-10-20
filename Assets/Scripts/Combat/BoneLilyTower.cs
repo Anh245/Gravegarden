@@ -2,24 +2,50 @@ using UnityEngine;
 
 public class BoneLilyTower : MonoBehaviour
 {
+    [Header("Dữ liệu")]
+    [SerializeField]
+    private ProjectileTowerDefinition definition;
+
+    [Header("Tham chiếu trong prefab")]
     [SerializeField] private Animator visualAnimator;
     [SerializeField] private Transform muzzle;
     [SerializeField] private BoneProjectile projectilePrefab;
+
+    [Header("Tham chiếu trong scene")]
     [SerializeField] private TownHallHealth defendedHall;
 
-    [SerializeField, Min(0.01f)] private float attackRange = 3.6f;
-    [SerializeField, Min(0.01f)] private float attackInterval = 0.8f;
-    [SerializeField, Min(0.01f)] private float damage = 18f;
-
+    [Header("Tìm mục tiêu")]
     [SerializeField, Min(0.01f)]
     private float retrySearchInterval = 0.1f;
 
+    private float damage;
+    private float range;
+    private float attackInterval;
+
     private float cooldown;
     private float searchDelay;
-    private EnemyHealth currentTarget;
+    private bool initialized;
+
+    public ProjectileTowerDefinition Definition => definition;
+
+    public void Configure(TownHallHealth newDefendedHall)
+    {
+        defendedHall = newDefendedHall;
+    }
 
     private void Start()
     {
+        if (definition == null || !definition.IsValid)
+        {
+            Debug.LogError(
+                "Bone Lily thiếu dữ liệu hoặc dữ liệu không hợp lệ.",
+                this
+            );
+
+            enabled = false;
+            return;
+        }
+
         if (visualAnimator == null ||
             muzzle == null ||
             projectilePrefab == null ||
@@ -31,90 +57,116 @@ public class BoneLilyTower : MonoBehaviour
             );
 
             enabled = false;
+            return;
         }
+
+        damage = definition.Damage;
+        range = definition.Range;
+        attackInterval = definition.AttackInterval;
+
+        initialized = true;
     }
 
     private void LateUpdate()
     {
+        if (!initialized)
+            return;
+
         if (defendedHall.IsDestroyed)
         {
-            currentTarget = null;
             visualAnimator.speed = 0f;
             return;
         }
 
-        cooldown = Mathf.Max(0f, cooldown - Time.deltaTime);
-        searchDelay = Mathf.Max(0f, searchDelay - Time.deltaTime);
+        if (Time.timeScale <= 0f)
+            return;
+
+        cooldown = Mathf.Max(
+            0f,
+            cooldown - Time.deltaTime
+        );
+
+        searchDelay = Mathf.Max(
+            0f,
+            searchDelay - Time.deltaTime
+        );
 
         if (cooldown > 0f || searchDelay > 0f)
             return;
 
-        currentTarget = FindBestTarget();
+        EnemyHealth target = FindBestTarget();
 
-        if (currentTarget == null)
+        if (target == null)
         {
             searchDelay = retrySearchInterval;
             return;
         }
 
-        Fire(currentTarget);
+        Fire(target);
+
         cooldown = attackInterval;
     }
 
     private EnemyHealth FindBestTarget()
     {
-        EnemyHealth[] enemies = FindObjectsByType<EnemyHealth>();
+        EnemyHealth[] enemies =
+            FindObjectsByType<EnemyHealth>();
 
         EnemyHealth best = null;
         float bestProgress = -1f;
-        float bestDistanceSquared = float.PositiveInfinity;
-        EntityId bestId = EntityId.None;
+        float bestDistance = float.PositiveInfinity;
 
-        float rangeSquared = attackRange * attackRange;
+        Vector2 origin = transform.position;
+        float rangeSquared = range * range;
 
         foreach (EnemyHealth candidate in enemies)
         {
             if (!candidate.IsAlive)
                 continue;
 
-            EnemyRouteFollower follower =
+            EnemyRouteFollower movement =
                 candidate.GetComponent<EnemyRouteFollower>();
 
-            if (follower == null || !follower.IsReady)
+            if (movement == null || !movement.IsReady)
                 continue;
 
-            Vector2 offset =
-                (Vector2)candidate.transform.position -
-                (Vector2)transform.position;
+            Vector2 aimPosition = candidate.AimPosition;
 
-            float distanceSquared = offset.sqrMagnitude;
+            float distance =
+                (aimPosition - origin).sqrMagnitude;
 
-            if (distanceSquared > rangeSquared)
+            if (distance > rangeSquared)
                 continue;
 
-            float progress = follower.Progress;
-            EntityId candidateId = candidate.GetEntityId();
+            float progress = movement.Progress;
 
-            bool better =
-                best == null ||
-                progress > bestProgress ||
-                (
-                    progress == bestProgress &&
-                    distanceSquared < bestDistanceSquared
-                ) ||
-                (
-                    progress == bestProgress &&
-                    distanceSquared == bestDistanceSquared &&
-                    candidateId.CompareTo(bestId) < 0
-                );
+            bool shouldChoose = best == null;
 
-            if (!better)
+            if (best != null)
+            {
+                if (!Mathf.Approximately(progress, bestProgress))
+                {
+                    shouldChoose = progress > bestProgress;
+                }
+                else if (!Mathf.Approximately(distance, bestDistance))
+                {
+                    shouldChoose = distance < bestDistance;
+                }
+                else
+                {
+                    shouldChoose =
+                        candidate.GetEntityId().CompareTo(
+                            best.GetEntityId()
+                        ) < 0;
+                }
+            }
+
+            if (!shouldChoose)
                 continue;
 
             best = candidate;
             bestProgress = progress;
-            bestDistanceSquared = distanceSquared;
-            bestId = candidateId;
+            bestDistance = distance;
         }
 
         return best;
@@ -122,7 +174,11 @@ public class BoneLilyTower : MonoBehaviour
 
     private void Fire(EnemyHealth target)
     {
-        visualAnimator.Play("Base Layer.Attack", 0, 0f);
+        visualAnimator.Play(
+            "Base Layer.Attack",
+            0,
+            0f
+        );
 
         BoneProjectile projectile = Instantiate(
             projectilePrefab,
@@ -130,26 +186,28 @@ public class BoneLilyTower : MonoBehaviour
             Quaternion.identity
         );
 
-        projectile.Initialize(target, damage, defendedHall);
+        projectile.Initialize(
+            target,
+            damage,
+            defendedHall
+        );
     }
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
+        if (definition == null || !definition.IsValid)
+            return;
 
-        if (currentTarget != null && currentTarget.IsAlive)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawLine(
-                transform.position,
-                currentTarget.AimPosition
-            );
-        }
-    }
+        Gizmos.color = Color.green;
 
-    public void Configure(TownHallHealth newDefendedHall)
-    {
-        defendedHall = newDefendedHall;
+        float displayedRange =
+            Application.isPlaying && initialized
+                ? range
+                : definition.Range;
+
+        Gizmos.DrawWireSphere(
+            transform.position,
+            displayedRange
+        );
     }
 }

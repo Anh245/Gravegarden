@@ -80,7 +80,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyRouteFollower
   route: {fileID: 0}
-  moveSpeed: 0.64
+  startingDistance: 0
 --- !u!114 &2293004348841754390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94,9 +94,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySiegeAttack
   target: {fileID: 0}
-  damage: 1
-  firstHitDelay: 0.65
-  attackInterval: 1.6
 --- !u!114 &4817872621329298176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,8 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d86a60df7e1e47349b2a12c974044f43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  maxHealth: 60
-  bounty: 8
+  definition: {fileID: 11400000, guid: d9a7a2d926abdfa48ad0762248676abb, type: 2}
   aimPoint: {fileID: 8395405166001651523}
   visualAnimator: {fileID: 2749389223587521220}
   deathClip: {fileID: 7400000, guid: e229ac724a39e9c43b796e5b93147aa5, type: 2}

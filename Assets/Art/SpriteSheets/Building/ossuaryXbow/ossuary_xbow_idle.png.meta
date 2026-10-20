@@ -1,31 +1,31 @@
 fileFormatVersion: 2
-guid: deb59b831b8004349bee2b7fed43f7ae
+guid: 31c7a49d1fe7a6946abe6fb47188672b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4090781748187814517
-    second: ossuary_xbow_attack_0
+      213: 6841465135778686896
+    second: ossuary_xbow_idle_0
   - first:
-      213: 5135766152794451708
-    second: ossuary_xbow_attack_1
+      213: -1253992239474111949
+    second: ossuary_xbow_idle_1
   - first:
-      213: 5481575858641970763
-    second: ossuary_xbow_attack_2
+      213: 2274708251616366742
+    second: ossuary_xbow_idle_2
   - first:
-      213: 7892401319463527275
-    second: ossuary_xbow_attack_3
+      213: 5373832415156093801
+    second: ossuary_xbow_idle_3
   - first:
-      213: -5080208267153632068
-    second: ossuary_xbow_attack_4
+      213: 1468748597731048074
+    second: ossuary_xbow_idle_4
   - first:
-      213: 5744819877826066286
-    second: ossuary_xbow_attack_5
+      213: -7086874153565570847
+    second: ossuary_xbow_idle_5
   - first:
-      213: 4312041870857255944
-    second: ossuary_xbow_attack_6
+      213: -8797695572562329376
+    second: ossuary_xbow_idle_6
   - first:
-      213: -5519747859289308472
-    second: ossuary_xbow_attack_7
+      213: -2108234599696336597
+    second: ossuary_xbow_idle_7
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -58,7 +58,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -98,7 +98,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -149,7 +149,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ossuary_xbow_attack_0
+      name: ossuary_xbow_idle_0
       rect:
         serializedVersion: 2
         x: 5
@@ -164,20 +164,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b852d958caf9a37c0800000000000000
-      internalID: -4090781748187814517
+      spriteID: 0b7ee491b44c1fe50800000000000000
+      internalID: 6841465135778686896
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ossuary_xbow_attack_1
+      name: ossuary_xbow_idle_1
       rect:
         serializedVersion: 2
         x: 117
         y: 0
         width: 102
-        height: 97
+        height: 99
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -186,20 +186,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cfea9c20b18e54740800000000000000
-      internalID: 5135766152794451708
+      spriteID: 33a8c0fb3bce89ee0800000000000000
+      internalID: -1253992239474111949
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ossuary_xbow_attack_2
+      name: ossuary_xbow_idle_2
       rect:
         serializedVersion: 2
-        x: 229
+        x: 230
         y: 0
-        width: 102
-        height: 105
+        width: 99
+        height: 106
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -208,19 +208,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b4626b76338721c40800000000000000
-      internalID: 5481575858641970763
+      spriteID: 6905e395a13619f10800000000000000
+      internalID: 2274708251616366742
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ossuary_xbow_attack_3
+      name: ossuary_xbow_idle_3
       rect:
         serializedVersion: 2
-        x: 341
+        x: 343
         y: 0
-        width: 102
+        width: 99
         height: 110
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -230,20 +230,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b63a27f2f21778d60800000000000000
-      internalID: 7892401319463527275
+      spriteID: 963cbdb1c10b39a40800000000000000
+      internalID: 5373832415156093801
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ossuary_xbow_attack_4
+      name: ossuary_xbow_idle_4
       rect:
         serializedVersion: 2
         x: 455
         y: 0
         width: 98
-        height: 98
+        height: 112
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -252,20 +252,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cb41e434f797f79b0800000000000000
-      internalID: -5080208267153632068
+      spriteID: a8abc10611b026410800000000000000
+      internalID: 1468748597731048074
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ossuary_xbow_attack_5
+      name: ossuary_xbow_idle_5
       rect:
         serializedVersion: 2
-        x: 565
+        x: 566
         y: 0
-        width: 102
-        height: 97
+        width: 100
+        height: 111
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -274,20 +274,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e67fc64dd33b9bf40800000000000000
-      internalID: 5744819877826066286
+      spriteID: 1e8b3d4518d56ad90800000000000000
+      internalID: -7086874153565570847
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ossuary_xbow_attack_6
+      name: ossuary_xbow_idle_6
       rect:
         serializedVersion: 2
         x: 677
         y: 0
-        width: 102
-        height: 96
+        width: 101
+        height: 106
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -296,20 +296,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 80cbe014c3377db30800000000000000
-      internalID: 4312041870857255944
+      spriteID: 0e0456b2d7e48e580800000000000000
+      internalID: -8797695572562329376
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ossuary_xbow_attack_7
+      name: ossuary_xbow_idle_7
       rect:
         serializedVersion: 2
         x: 789
         y: 0
         width: 102
-        height: 96
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -318,8 +318,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8c2865d119ae563b0800000000000000
-      internalID: -5519747859289308472
+      spriteID: b2979ed2dcb0eb2e0800000000000000
+      internalID: -2108234599696336597
       vertices: []
       indices: 
       edges: []
@@ -338,14 +338,14 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      ossuary_xbow_attack_0: -4090781748187814517
-      ossuary_xbow_attack_1: 5135766152794451708
-      ossuary_xbow_attack_2: 5481575858641970763
-      ossuary_xbow_attack_3: 7892401319463527275
-      ossuary_xbow_attack_4: -5080208267153632068
-      ossuary_xbow_attack_5: 5744819877826066286
-      ossuary_xbow_attack_6: 4312041870857255944
-      ossuary_xbow_attack_7: -5519747859289308472
+      ossuary_xbow_idle_0: 6841465135778686896
+      ossuary_xbow_idle_1: -1253992239474111949
+      ossuary_xbow_idle_2: 2274708251616366742
+      ossuary_xbow_idle_3: 5373832415156093801
+      ossuary_xbow_idle_4: 1468748597731048074
+      ossuary_xbow_idle_5: -7086874153565570847
+      ossuary_xbow_idle_6: -8797695572562329376
+      ossuary_xbow_idle_7: -2108234599696336597
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

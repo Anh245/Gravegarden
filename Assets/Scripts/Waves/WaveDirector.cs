@@ -28,15 +28,14 @@ public class WaveDirector : MonoBehaviour
     [SerializeField] private TMP_Text remainingEnemiesText;
     [SerializeField] private TMP_Text waveStatusText;
 
-    [Header("Các đợt kiểm thử")]
+    [Header("Dữ liệu wave")]
     [SerializeField]
-    private int[] enemiesPerWave =
-    {
-        5, 8, 12
-    };
+    private WaveSetDefinition waveSet;
 
-    [SerializeField, Min(0.1f)]
-    private float spawnInterval = 2f;
+    // Bản dữ liệu dùng riêng trong trận hiện tại.
+    private int[] enemiesPerWave;
+    private float spawnInterval;
+
 
     private readonly List<EnemyHealth> spawnedEnemies =
         new List<EnemyHealth>();
@@ -55,13 +54,13 @@ public class WaveDirector : MonoBehaviour
 
     private void Start()
     {
-        if (!ValidateSetup())
+        if (!LoadWaveConfiguration() || !ValidateSetup())
         {
             if (startWaveButton != null)
                 startWaveButton.interactable = false;
 
             if (waveStatusText != null)
-                waveStatusText.text = "Thiếu cấu hình wave.";
+                waveStatusText.text = "Thiếu hoặc sai cấu hình wave.";
 
             enabled = false;
             return;
@@ -363,6 +362,38 @@ public class WaveDirector : MonoBehaviour
                     "Nhà chính đã bị phá hủy.";
                 break;
         }
+    }
+
+    private bool LoadWaveConfiguration()
+    {
+        if (waveSet == null)
+        {
+            Debug.LogError(
+             "WaveDirector chưa được gán Wave Set.",
+             this
+             );
+
+            return false;
+
+        }
+        if (!waveSet.IsValid)
+        {
+            Debug.LogError(
+                    $"Bộ wave '{waveSet.name}' không hợp lệ. " +
+                    "Cần ít nhất một đợt, số địch lớn hơn 0 " +
+                    "và khoảng cách sinh ít nhất 0.1 giây.",
+                    this
+
+                );
+            return false;
+
+
+        }
+
+        enemiesPerWave = waveSet.CreateEnemyCountsCopy();
+        spawnInterval = waveSet.SpawnInterval;
+
+        return true;
     }
 
     private void OnDestroy()

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06ed65b9f09bc0b46850d44e03bb0740, type: 3}
+  m_Name: Rotling_Data
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyDefinition
+  displayName: "Qu\xE1i M\u1EE5c"
+  maxHealth: 60
+  bounty: 8
+  moveSpeed: 0.64
+  siegeDamage: 1
+  firstHitDelay: 0.65
+  attackInterval: 1.6
