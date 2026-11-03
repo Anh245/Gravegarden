@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: BoneHound_Override
+  m_Controller: {fileID: 9100000, guid: 0c112242f2bd52a4687024b00199aef7, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 31f3eab8746a22940a415dceea2034f4, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 92358272ed9c59e46a70a21a72323b5b, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: e229ac724a39e9c43b796e5b93147aa5, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: bdf8bd3d9eaf0e944ad17085f50ee4fa, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: e3b5dc93949fa8f43960983f809bb266, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 5cf556664ed4d474a8ccafe5c47e5515, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: dfe56d261845fbb4bbd5bb7c1c194b5e, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: d8674089e92a4e34aa3bef9049c62d5c, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: a3484a44d1b7dad46af35d605edf7f51, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: f8b82a1f1f54f3944906adf693ea59f9, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 3d935ecc586c4e445ac1268faa688a24, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 6f257d9b65e81af449034b05d3818bf5, type: 2}

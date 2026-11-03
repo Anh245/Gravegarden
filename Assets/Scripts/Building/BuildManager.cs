@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -8,10 +9,11 @@ public class BuildManager : MonoBehaviour
     [Header("Hệ thống trong scene")]
     [SerializeField] private PlayerWallet wallet;
     [SerializeField] private TownHallHealth defendedHall;
+    [SerializeField] private WaveDirector waveDirector;
     [SerializeField] private Transform buildingsParent;
 
-    [Header("Danh sách tháp")]
-    [SerializeField] private BoneLilyTower[] towerPrefabs;
+    [Header("Danh sách công trình")]
+    [SerializeField] private BuildingOption[] buildingOptions;
 
     [Header("Giao diện")]
     [SerializeField] private GameObject buildPanel;
@@ -20,11 +22,11 @@ public class BuildManager : MonoBehaviour
     [SerializeField] private Button buildButton;
     [SerializeField] private Button closeButton;
 
+    private readonly List<ProducerBuilding> builtProducers =
+        new List<ProducerBuilding>();
+
     private BuildSlot selectedSlot;
     private bool initialized;
-
-    private int[] buildCosts;
-    private string[] displayNames;
 
     private void Start()
     {
@@ -40,24 +42,15 @@ public class BuildManager : MonoBehaviour
             return;
         }
 
-        buildCosts = new int[towerPrefabs.Length];
-        displayNames = new string[towerPrefabs.Length];
+        var names = new List<string>();
 
-        var options = new List<string>();
-
-        for (int i = 0; i < towerPrefabs.Length; i++)
+        foreach (BuildingOption option in buildingOptions)
         {
-            ProjectileTowerDefinition data =
-                towerPrefabs[i].Definition;
-
-            buildCosts[i] = data.BuildCost;
-            displayNames[i] = data.DisplayName;
-
-            options.Add(displayNames[i]);
+            names.Add(option.DisplayName);
         }
 
         buildingDropdown.ClearOptions();
-        buildingDropdown.AddOptions(options);
+        buildingDropdown.AddOptions(names);
         buildingDropdown.SetValueWithoutNotify(0);
         buildingDropdown.RefreshShownValue();
 
@@ -76,6 +69,7 @@ public class BuildManager : MonoBehaviour
     {
         if (wallet == null ||
             defendedHall == null ||
+            waveDirector == null ||
             buildingsParent == null ||
             buildPanel == null ||
             buildingDropdown == null ||
@@ -101,36 +95,27 @@ public class BuildManager : MonoBehaviour
             return false;
         }
 
-        if (towerPrefabs == null || towerPrefabs.Length == 0)
+        if (buildingOptions == null ||
+            buildingOptions.Length == 0)
         {
             Debug.LogError(
-                "BuildManager chưa có danh sách tháp.",
+                "Danh sách công trình đang trống.",
                 this
             );
 
             return false;
         }
 
-        foreach (BoneLilyTower prefab in towerPrefabs)
+        for (int i = 0; i < buildingOptions.Length; i++)
         {
-            if (prefab == null)
+            BuildingOption option = buildingOptions[i];
+
+            if (option == null || !option.IsValid)
             {
                 Debug.LogError(
-                    "Danh sách tháp có phần tử chưa được gán.",
-                    this
-                );
-
-                return false;
-            }
-
-            if (!prefab.gameObject.activeSelf ||
-                !prefab.enabled ||
-                prefab.Definition == null ||
-                !prefab.Definition.IsValid)
-            {
-                Debug.LogError(
-                    $"Prefab '{prefab.name}' bị tắt " +
-                    "hoặc thiếu dữ liệu hợp lệ.",
+                    $"Building Options, phần tử {i} không hợp lệ. " +
+                    "Chỉ gán Tower hoặc Producer, " +
+                    "và kiểm tra dữ liệu của prefab.",
                     this
                 );
 
@@ -155,7 +140,9 @@ public class BuildManager : MonoBehaviour
         if (!buildPanel.activeSelf)
             return;
 
-        if (selectedSlot == null || selectedSlot.IsOccupied)
+        if (!waveDirector.CanBuildNow ||
+            selectedSlot == null ||
+            selectedSlot.IsOccupied)
         {
             ClosePanel();
             return;
@@ -167,7 +154,7 @@ public class BuildManager : MonoBehaviour
     public void SelectSlot(BuildSlot slot)
     {
         if (!initialized ||
-            defendedHall.IsDestroyed ||
+            !waveDirector.CanBuildNow ||
             slot == null ||
             slot.IsOccupied)
         {
@@ -175,55 +162,124 @@ public class BuildManager : MonoBehaviour
         }
 
         selectedSlot = slot;
-
         buildPanel.SetActive(true);
         RefreshPanel();
     }
 
     private void OnSelectionChanged(int index)
     {
-        if (!initialized || !buildPanel.activeSelf)
-            return;
+        if (initialized && buildPanel.activeSelf)
+            RefreshPanel();
+    }
 
-        RefreshPanel();
+    private bool IsUnlocked(BuildingOption option)
+    {
+        return waveDirector.AvailableWaveNumber
+            >= option.UnlockWave;
+    }
+
+    private int CountOwnedProducers(
+        ProducerDefinition definition)
+    {
+        int count = 0;
+
+        foreach (ProducerBuilding producer in builtProducers)
+        {
+            if (producer != null &&
+                producer.gameObject.activeInHierarchy &&
+                producer.Definition == definition)
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    private int GetPurchaseCost(BuildingOption option)
+    {
+        if (!option.IsProducer)
+            return option.BaseCost;
+
+        int copies = CountOwnedProducers(
+            option.Producer.Definition
+        );
+
+        double price =
+            option.BaseCost * Math.Pow(1.18, copies);
+
+        return (int)Math.Round(
+            price,
+            MidpointRounding.AwayFromZero
+        );
     }
 
     private void RefreshPanel()
     {
-        int index = buildingDropdown.value;
-        int cost = buildCosts[index];
+        BuildingOption option =
+            buildingOptions[buildingDropdown.value];
 
+        int cost = GetPurchaseCost(option);
+
+        bool unlocked = IsUnlocked(option);
         bool canAfford = wallet.Banlance >= cost;
+        bool canBuildNow = waveDirector.CanBuildNow;
+
+        string status;
+
+        if (!canBuildNow)
+        {
+            status = "Hiện không thể xây công trình.";
+        }
+        else if (!unlocked)
+        {
+            status =
+                $"Chưa mở khóa. Mở từ đợt {option.UnlockWave}.";
+        }
+        else if (!canAfford)
+        {
+            status = "Không đủ tiền.";
+        }
+        else
+        {
+            status = "Có thể xây.";
+        }
 
         infoText.text =
-            $"{displayNames[index]}\n" +
+            $"{option.DisplayName}\n" +
             $"Giá: {cost} tiền\n" +
             $"Bạn có: {wallet.Banlance} tiền\n" +
-            (canAfford
-                ? "Có thể xây."
-                : "Không đủ tiền.");
+            status;
 
         buildButton.interactable =
+            canBuildNow &&
+            unlocked &&
             canAfford &&
             selectedSlot != null &&
-            !selectedSlot.IsOccupied &&
-            !defendedHall.IsDestroyed;
+            !selectedSlot.IsOccupied;
     }
 
     private void BuildSelectedSlot()
     {
         if (!initialized ||
-            defendedHall.IsDestroyed ||
+            !waveDirector.CanBuildNow ||
             selectedSlot == null ||
             selectedSlot.IsOccupied)
         {
             return;
         }
 
-        int index = buildingDropdown.value;
+        BuildingOption option =
+            buildingOptions[buildingDropdown.value];
 
-        BoneLilyTower prefab = towerPrefabs[index];
-        int cost = buildCosts[index];
+        if (!IsUnlocked(option))
+        {
+            RefreshPanel();
+            return;
+        }
+
+        // Tính lại giá ngay lúc xác nhận mua.
+        int cost = GetPurchaseCost(option);
 
         if (!wallet.TrySpend(cost))
         {
@@ -231,24 +287,44 @@ public class BuildManager : MonoBehaviour
             return;
         }
 
-        BoneLilyTower tower = Instantiate(
-            prefab,
-            selectedSlot.BuildPosition,
-            Quaternion.identity,
-            buildingsParent
-        );
+        Vector3 position = selectedSlot.BuildPosition;
 
-        tower.Configure(defendedHall);
+        if (option.IsProducer)
+        {
+            ProducerBuilding producer = Instantiate(
+                option.Producer,
+                position,
+                Quaternion.identity,
+                buildingsParent
+            );
+
+            producer.Configure(
+                wallet,
+                defendedHall,
+                waveDirector
+            );
+
+            builtProducers.Add(producer);
+        }
+        else
+        {
+            BoneLilyTower tower = Instantiate(
+                option.Tower,
+                position,
+                Quaternion.identity,
+                buildingsParent
+            );
+
+            tower.Configure(defendedHall);
+        }
 
         selectedSlot.MarkOccupied();
-
         ClosePanel();
     }
 
     private void ClosePanel()
     {
         buildingDropdown.Hide();
-
         selectedSlot = null;
         buildPanel.SetActive(false);
     }

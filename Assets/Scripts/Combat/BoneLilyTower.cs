@@ -28,6 +28,52 @@ public class BoneLilyTower : MonoBehaviour
 
     public ProjectileTowerDefinition Definition => definition;
 
+    public int Level { get; private set; } = 1;
+
+    public bool IsMaxLevel =>
+        definition != null && Level >= definition.MaxLevel;
+
+    public float CurrentDamage => damage;
+
+    public int NextUpgradeCost =>
+        definition != null ? definition.GetUpgradeCost(Level) : 0;
+
+    public bool CanUpgradeNow(WaveDirector waveDirector)
+    {
+        return initialized
+            && isActiveAndEnabled
+            && definition != null
+            && defendedHall != null
+            && !defendedHall.IsDestroyed
+            && waveDirector != null
+            && waveDirector.CanBuildNow
+            && Time.timeScale > 0f
+            && !IsMaxLevel;
+    }
+
+    public bool TryUpgrade(
+        PlayerWallet wallet,
+        WaveDirector waveDirector)
+    {
+        if (wallet == null || !CanUpgradeNow(waveDirector))
+            return false;
+
+        int cost = NextUpgradeCost;
+
+        if (cost <= 0 || !wallet.TrySpend(cost))
+            return false;
+
+        Level++;
+        damage = definition.GetDamageAtLevel(Level);
+
+        Debug.Log(
+            $"{definition.DisplayName} đã lên cấp {Level}. " +
+            $"Sát thương: {damage}. Chi phí: {cost}.",
+            this);
+
+        return true;
+    }
+
     public void Configure(TownHallHealth newDefendedHall)
     {
         defendedHall = newDefendedHall;
@@ -60,7 +106,7 @@ public class BoneLilyTower : MonoBehaviour
             return;
         }
 
-        damage = definition.Damage;
+        damage = definition.GetDamageAtLevel(Level);
         range = definition.Range;
         attackInterval = definition.AttackInterval;
 

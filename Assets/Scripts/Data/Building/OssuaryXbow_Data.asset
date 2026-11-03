@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9688a3e0aa298554182aa1be76f6c0f5, type: 3}
   m_Name: OssuaryXbow_Data
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileTowerDefinition
+  unlockWave: 2
   displayName: "N\u1ECF X\u01B0\u01A1ng"
   buildCost: 208
   damage: 32

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class WaveDirector : MonoBehaviour
 {
+    
     private enum WaveState
     {
         Ready,
@@ -12,6 +13,7 @@ public class WaveDirector : MonoBehaviour
         Finished,
         Defeat
     }
+
 
     [Header("Địch và tuyến đường")]
     [SerializeField] private GameObject rotlingPrefab;
@@ -31,6 +33,22 @@ public class WaveDirector : MonoBehaviour
     [Header("Dữ liệu wave")]
     [SerializeField]
     private WaveSetDefinition waveSet;
+
+
+    //Cap nhat dot sau khi ket thuc dot hien tai
+    public int CompletedWaveCount { get; private set; }
+
+
+    //Đợt đang chuẩn bị hoặc đang chơi, dùng xét mở khóa
+    public int AvailableWaveNumber =>
+        CompletedWaveCount + 1;
+
+    public bool CanBuildNow =>
+        initialized &&
+        defendedHall != null &&
+        !defendedHall.IsDestroyed &&
+        (state == WaveState.Ready ||
+         state == WaveState.Running);
 
     // Bản dữ liệu dùng riêng trong trận hiện tại.
     private int[] enemiesPerWave;
@@ -275,20 +293,21 @@ public class WaveDirector : MonoBehaviour
 
     private void CheckWaveCompletion()
     {
-        // Chưa sinh đủ thì chưa thể hoàn thành.
         if (spawnedCount < enemiesPerWave[waveIndex])
             return;
 
         foreach (EnemyHealth enemy in spawnedEnemies)
         {
-            // Chỉ xác nhận khi địch đã chết thật.
             if (enemy == null || !enemy.HasDied)
                 return;
 
-            // Chờ animation chết chạy xong và object bị ẩn.
             if (enemy.gameObject.activeSelf)
                 return;
         }
+
+        // Chỉ tăng tiến trình khi toàn bộ địch đã chết
+        // và animation chết đã kết thúc.
+        CompletedWaveCount = waveIndex + 1;
 
         bool isLastWave =
             waveIndex >= enemiesPerWave.Length - 1;
@@ -298,7 +317,7 @@ public class WaveDirector : MonoBehaviour
             : WaveState.Ready;
 
         Debug.Log(
-            $"Hoàn thành đợt {waveIndex + 1}.",
+            $"Hoàn thành đợt {CompletedWaveCount}.",
             this
         );
     }
