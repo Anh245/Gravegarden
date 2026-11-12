@@ -1,4 +1,5 @@
-using System;
+using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -10,6 +11,7 @@ public class GardenCameraController : MonoBehaviour
 {
 
     [SerializeField] private SpriteRenderer ground;
+    [SerializeField] private WorldMapBounds worldBounds;
     [SerializeField] private float minSize = 3f;
     [SerializeField] private float maxSize = 14f;
     [SerializeField] private float zoomStep = 0.75f;
@@ -17,6 +19,10 @@ public class GardenCameraController : MonoBehaviour
     private Camera viewCamera;
     private bool dragging;
     private Vector2 previousPointer;
+    private readonly List<RaycastResult> pointerHits = new List<RaycastResult>();
+    private PointerEventData uiPointer;
+    private EventSystem pointerEventSystem;
+
 
     private void Awake()
     {
@@ -44,6 +50,7 @@ public class GardenCameraController : MonoBehaviour
     {
         // Giới hạn góc nhìn cả khi không có chuột.
         ClampToGround();
+        if (Time.timeScale <= 0f) { dragging = false; return; }
 
         Mouse mouse = Mouse.current;
         if (mouse == null)
@@ -51,9 +58,7 @@ public class GardenCameraController : MonoBehaviour
 
         Vector2 pointer = mouse.position.ReadValue();
 
-        bool overUI =
-            EventSystem.current != null &&
-            EventSystem.current.IsPointerOverGameObject();
+        bool overUI = IsPointerOverCanvasUI(pointer);
 
         if (mouse.rightButton.wasPressedThisFrame && !overUI)
         {
@@ -98,6 +103,27 @@ public class GardenCameraController : MonoBehaviour
         ClampToGround();
     }
 
+    private bool IsPointerOverCanvasUI(Vector2 screenPosition)
+    {
+        EventSystem current = EventSystem.current;
+        if (current == null) return false;
+        if (uiPointer == null || pointerEventSystem != current)
+        {
+            pointerEventSystem = current;
+            uiPointer = new PointerEventData(current);
+        }
+        uiPointer.Reset();
+        uiPointer.position = screenPosition;
+        pointerHits.Clear();
+        current.RaycastAll(uiPointer, pointerHits);
+        foreach (RaycastResult hit in pointerHits)
+        {
+            // Chỉ Canvas UI chặn camera; collider ô xây/công trình không chặn.
+            if (hit.module is GraphicRaycaster) return true;
+        }
+        return false;
+    }
+
     private Vector3 ScreenToWorld(Vector2 pointer)
     {
         float distance = ground.bounds.center.z - transform.position.z;
@@ -107,9 +133,15 @@ public class GardenCameraController : MonoBehaviour
         );
     }
 
+    private Bounds GetWorldBounds()
+    {
+        if (worldBounds != null && worldBounds.TryGetBounds(out Bounds bounds)) return bounds;
+        return ground.bounds;
+    }
+
     private void GetSizeLimits(out float smallest, out float largest)
     {
-        Bounds bounds = ground.bounds;
+        Bounds bounds = GetWorldBounds();
 
         float fitSize = Mathf.Min(
             bounds.extents.y,
@@ -130,7 +162,7 @@ public class GardenCameraController : MonoBehaviour
             largest
         );
 
-        Bounds bounds = ground.bounds;
+        Bounds bounds = GetWorldBounds();
         float halfHeight = viewCamera.orthographicSize;
         float halfWidth = halfHeight * viewCamera.aspect;
 

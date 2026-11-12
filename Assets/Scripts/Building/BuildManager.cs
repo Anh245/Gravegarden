@@ -11,6 +11,7 @@ public class BuildManager : MonoBehaviour
     [SerializeField] private TownHallHealth defendedHall;
     [SerializeField] private WaveDirector waveDirector;
     [SerializeField] private Transform buildingsParent;
+    [SerializeField] private BuildGrid buildGrid;
 
     [Header("Danh sách công trình")]
     [SerializeField] private BuildingOption[] buildingOptions;
@@ -25,8 +26,72 @@ public class BuildManager : MonoBehaviour
     private readonly List<ProducerBuilding> builtProducers =
         new List<ProducerBuilding>();
 
+    public event Action<BuildingPlacement> BuildingPlaced;
     private BuildSlot selectedSlot;
     private bool initialized;
+    private BuildingMoveController moveController;
+    private int lastMoveInputFrame=-1;
+    public bool IsMovingBuilding=>moveController!=null && moveController.IsMoving;
+    public bool MoveInputBlocked=>IsMovingBuilding || lastMoveInputFrame==Time.frameCount;
+    public bool RegisterMoveController(BuildingMoveController controller)
+    {
+        if(moveController!=null && moveController!=controller) return false;
+        moveController=controller;return true;
+    }
+    public void BlockMoveClickForFrame()=>lastMoveInputFrame=Time.frameCount;
+    public void CancelBuildingMove() {if(moveController!=null) moveController.CancelMove();}
+    public bool CheckpointReady => initialized && isActiveAndEnabled;
+    public TMP_Dropdown LegacyDropdown=>buildingDropdown;
+    public int SelectedShopIndex=>buildingDropdown!=null?buildingDropdown.value:0;
+    public int LastPlacedOptionIndex { get; private set; }=-1;
+    public float LastPlacementTime { get; private set; }=-100f;
+    public bool HasSelectedBuildSlot=>IsBuildPanelOpen && selectedSlot!=null && !selectedSlot.IsOccupied;
+    public bool CanUseShop=>CheckpointReady && !MoveInputBlocked && !SceneNavigator.IsTransitioning
+        && Time.timeScale>0f && buildGrid.IsBuildMode && waveDirector.CanBuildNow && !defendedHall.IsDestroyed;
+    public bool TryGetShopOffer(int index,out int price,out bool unlocked,out int owned)
+    {
+        price=owned=0;unlocked=false;
+        if(!CheckpointReady || index<0 || index>=buildingOptions.Length)return false;
+        BuildingOption option=buildingOptions[index];
+        if(option==null || !option.IsValid)return false;
+        price=GetPurchaseCost(option);unlocked=IsUnlocked(option);
+        foreach(BuildingPlacement placement in buildingsParent.GetComponentsInChildren<BuildingPlacement>())
+            if(placement.IsPlaced && placement.Grid==buildGrid && placement.BuildingId==option.SaveId && !placement.SaleClaimed)owned++;
+        return true;
+    }
+    public bool TrySelectShopOption(int index)
+    {
+        if(!CanUseShop || index<0 || index>=buildingOptions.Length || !IsUnlocked(buildingOptions[index]))return false;
+        buildingDropdown.SetValueWithoutNotify(index);buildingDropdown.RefreshShownValue();
+        if(IsBuildPanelOpen)RefreshPanel();
+        return true;
+    }
+    public bool IsBuildPanelOpen => initialized && buildPanel!=null && buildPanel.activeInHierarchy;
+    public bool TryGetRangePreview(out Vector3 center,out float radius,out bool valid)
+    {
+        center=Vector3.zero;radius=0f;valid=false;
+        if(!IsBuildPanelOpen || selectedSlot==null || selectedSlot.Grid!=buildGrid
+            || buildingDropdown.value<0 || buildingDropdown.value>=buildingOptions.Length) return false;
+        BuildingOption option=buildingOptions[buildingDropdown.value];
+        if(option==null || !option.IsValid || option.IsProducer) return false;
+        center=buildGrid.GetPlacementCenter(selectedSlot.Cell,option.FootprintCells);
+        float baseRange=option.IsSupport?option.Support.Definition.Range:option.Tower.Definition.Range;
+        radius=baseRange+option.FootprintCells*buildGrid.CellSize*0.5f;
+        valid=buildGrid.CanPlace(selectedSlot,option.FootprintCells,out _);
+        return true;
+    }
+    public BuildGrid CheckpointGrid => buildGrid;
+    public Transform CheckpointBuildingsParent => buildingsParent;
+    public IReadOnlyList<BuildingOption> CheckpointOptions => buildingOptions;
+    public PlayerWallet CheckpointWallet => wallet;
+    public TownHallHealth CheckpointHall => defendedHall;
+    public WaveDirector CheckpointWaves => waveDirector;
+    public void CloseForCheckpoint() { CancelBuildingMove(); ClosePanel(); }
+    public void ReplaceCheckpointProducers(List<ProducerBuilding> producers)
+    {
+        builtProducers.Clear();
+        builtProducers.AddRange(producers);
+    }
 
     private void Start()
     {
@@ -71,6 +136,7 @@ public class BuildManager : MonoBehaviour
             defendedHall == null ||
             waveDirector == null ||
             buildingsParent == null ||
+            buildGrid == null || !buildGrid.IsReady ||
             buildPanel == null ||
             buildingDropdown == null ||
             infoText == null ||
@@ -106,15 +172,22 @@ public class BuildManager : MonoBehaviour
             return false;
         }
 
+        var saveIds = new HashSet<string>(StringComparer.Ordinal);
         for (int i = 0; i < buildingOptions.Length; i++)
         {
             BuildingOption option = buildingOptions[i];
+            if (option != null && (!CheckpointValidator.IsValidId(option.SaveId) || !saveIds.Add(option.SaveId)))
+            {
+                Debug.LogError($"Building Options phần tử {i}: Save Id trống, bị trùng hoặc sai định dạng.", this);
+                return false;
+            }
+
 
             if (option == null || !option.IsValid)
             {
                 Debug.LogError(
                     $"Building Options, phần tử {i} không hợp lệ. " +
-                    "Chỉ gán Tower hoặc Producer, " +
+                    "Chỉ gán một loại: Tower, Producer hoặc Support, " +
                     "và kiểm tra dữ liệu của prefab.",
                     this
                 );
@@ -153,9 +226,10 @@ public class BuildManager : MonoBehaviour
 
     public void SelectSlot(BuildSlot slot)
     {
+        if(MoveInputBlocked) return;
         if (!initialized ||
-            !waveDirector.CanBuildNow ||
-            slot == null ||
+            !waveDirector.CanBuildNow || Time.timeScale <= 0f || !buildGrid.IsBuildMode ||
+            slot == null || slot.Grid != buildGrid ||
             slot.IsOccupied)
         {
             return;
@@ -174,7 +248,7 @@ public class BuildManager : MonoBehaviour
 
     private bool IsUnlocked(BuildingOption option)
     {
-        return waveDirector.AvailableWaveNumber
+        return waveDirector.TutorialAllowsBuilding(option) && waveDirector.AvailableWaveNumber
             >= option.UnlockWave;
     }
 
@@ -198,132 +272,109 @@ public class BuildManager : MonoBehaviour
 
     private int GetPurchaseCost(BuildingOption option)
     {
-        if (!option.IsProducer)
-            return option.BaseCost;
-
-        int copies = CountOwnedProducers(
-            option.Producer.Definition
-        );
-
-        double price =
-            option.BaseCost * Math.Pow(1.18, copies);
-
-        return (int)Math.Round(
-            price,
-            MidpointRounding.AwayFromZero
-        );
+        int copies=option.IsProducer?CountOwnedProducers(option.Producer.Definition):0;
+        return ShopCardPolicy.PurchasePrice(option.BaseCost,option.IsProducer,copies);
     }
 
     private void RefreshPanel()
     {
-        BuildingOption option =
-            buildingOptions[buildingDropdown.value];
-
+        BuildingOption option = buildingOptions[buildingDropdown.value];
         int cost = GetPurchaseCost(option);
-
         bool unlocked = IsUnlocked(option);
         bool canAfford = wallet.Banlance >= cost;
-        bool canBuildNow = waveDirector.CanBuildNow;
-
-        string status;
-
-        if (!canBuildNow)
-        {
-            status = "Hiện không thể xây công trình.";
-        }
-        else if (!unlocked)
-        {
-            status =
-                $"Chưa mở khóa. Mở từ đợt {option.UnlockWave}.";
-        }
-        else if (!canAfford)
-        {
-            status = "Không đủ tiền.";
-        }
-        else
-        {
-            status = "Có thể xây.";
-        }
-
-        infoText.text =
-            $"{option.DisplayName}\n" +
-            $"Giá: {cost} tiền\n" +
-            $"Bạn có: {wallet.Banlance} tiền\n" +
-            status;
-
-        buildButton.interactable =
-            canBuildNow &&
-            unlocked &&
-            canAfford &&
-            selectedSlot != null &&
-            !selectedSlot.IsOccupied;
+        bool canBuildNow = waveDirector.CanBuildNow && Time.timeScale > 0f;
+        bool fits = buildGrid.CanPlace(selectedSlot, option.FootprintCells, out string placementReason);
+        buildGrid.ShowPreview(selectedSlot, option.FootprintCells, fits);
+        string status = !waveDirector.TutorialAllowsBuilding(option) ? "Hãy làm theo bước hướng dẫn hoặc chọn Bỏ qua."
+            : !canBuildNow ? "Hiện không thể xây công trình."
+            : !unlocked ? $"Chưa mở khóa. Mở từ đợt {option.UnlockWave}."
+            : !fits ? placementReason
+            : !canAfford ? "Không đủ tiền."
+            : "Có thể xây.";
+        infoText.text = $"{option.DisplayName}\nGiá: {cost} tiền\n"
+            + $"Bạn có: {wallet.Banlance} tiền\n"
+            + $"Chiếm: {option.FootprintCells} × {option.FootprintCells} ô nhỏ\n" + status;
+        buildButton.interactable = canBuildNow && unlocked && canAfford && fits;
     }
 
     private void BuildSelectedSlot()
     {
-        if (!initialized ||
-            !waveDirector.CanBuildNow ||
-            selectedSlot == null ||
-            selectedSlot.IsOccupied)
-        {
+        if(MoveInputBlocked) return;
+        if (!initialized || !waveDirector.CanBuildNow || Time.timeScale <= 0f
+            || selectedSlot == null || selectedSlot.IsOccupied)
             return;
-        }
-
-        BuildingOption option =
-            buildingOptions[buildingDropdown.value];
-
-        if (!IsUnlocked(option))
+        BuildingOption option = buildingOptions[buildingDropdown.value];
+        if (!IsUnlocked(option) || !buildGrid.CanPlace(selectedSlot, option.FootprintCells, out _))
         {
             RefreshPanel();
             return;
         }
-
-        // Tính lại giá ngay lúc xác nhận mua.
         int cost = GetPurchaseCost(option);
-
+        if (wallet.Banlance < cost)
+        {
+            RefreshPanel();
+            return;
+        }
+        Vector2Int anchor = selectedSlot.Cell;
+        int size = option.FootprintCells;
+        if (!buildGrid.TryReserve(selectedSlot, size, out int reservation, out Vector3 position, out _))
+        {
+            RefreshPanel();
+            return;
+        }
         if (!wallet.TrySpend(cost))
         {
+            buildGrid.ReleaseReservation(reservation);
             RefreshPanel();
             return;
         }
 
-        Vector3 position = selectedSlot.BuildPosition;
-
-        if (option.IsProducer)
+        GameObject instance = null;
+        ProducerBuilding newProducer = null;
+        try
         {
-            ProducerBuilding producer = Instantiate(
-                option.Producer,
-                position,
-                Quaternion.identity,
-                buildingsParent
-            );
-
-            producer.Configure(
-                wallet,
-                defendedHall,
-                waveDirector
-            );
-
-            builtProducers.Add(producer);
+            if (option.IsProducer)
+            {
+                newProducer = Instantiate(option.Producer, position, Quaternion.identity, buildingsParent);
+                instance = newProducer.gameObject;
+                newProducer.Configure(wallet, defendedHall, waveDirector);
+            }
+            else if (option.IsSupport)
+            {
+                SupportBuilding support = Instantiate(option.Support, position, Quaternion.identity, buildingsParent);
+                instance = support.gameObject;
+                support.Configure(wallet, defendedHall, waveDirector);
+            }
+            else
+            {
+                BoneLilyTower tower = Instantiate(option.Tower, position, Quaternion.identity, buildingsParent);
+                instance = tower.gameObject;
+                tower.Configure(defendedHall);
+            }
+            BuildingPlacement placement = instance.GetComponent<BuildingPlacement>();
+            if (placement == null) placement = instance.AddComponent<BuildingPlacement>();
+            placement.Initialize(buildGrid, reservation, anchor, size, option.SaveId, cost);
+            if (newProducer != null) builtProducers.Add(newProducer);
+            GameAudio.Play(GameSound.Placement);
+            LastPlacedOptionIndex=buildingDropdown.value;
+            LastPlacementTime=Time.unscaledTime;
+            ClosePanel();
+            try { BuildingPlaced?.Invoke(placement); }
+            catch(Exception notificationError) { Debug.LogException(notificationError,this); }
         }
-        else
+        catch (Exception exception)
         {
-            BoneLilyTower tower = Instantiate(
-                option.Tower,
-                position,
-                Quaternion.identity,
-                buildingsParent
-            );
-
-            tower.Configure(defendedHall);
+            if (instance != null) Destroy(instance);
+            buildGrid.ReleaseReservation(reservation);
+            wallet.AddReward(cost);
+            Debug.LogException(exception, this);
+            RefreshPanel();
         }
-
-        selectedSlot.MarkOccupied();
-        ClosePanel();
     }
 
     private void ClosePanel()
     {
+        if (buildGrid != null) buildGrid.ClearPreview();
         buildingDropdown.Hide();
         selectedSlot = null;
         buildPanel.SetActive(false);
@@ -331,6 +382,8 @@ public class BuildManager : MonoBehaviour
 
     public void StopBuilding()
     {
+        CancelBuildingMove();
+        if (buildGrid != null) buildGrid.ClearPreview();
         initialized = false;
 
         if (buildButton != null)

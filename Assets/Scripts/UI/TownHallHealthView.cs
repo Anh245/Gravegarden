@@ -14,14 +14,14 @@ public class TownHallHealthView : MonoBehaviour
     [SerializeField] private TMP_Text valueText;
 
 
+    [Tooltip("Bật để thanh máu đi theo nhà chính; tắt để đặt cố định bằng Rect Transform trên HUD.")]
+    [SerializeField] private bool followWorldAnchor = true;
     [SerializeField] private float verticalOffset = -60f;
 
     private void Awake()
     {
-        if (health == null || anchor == null ||
-            worldCamera == null || canvas == null ||
-            healthBar == null || valueText == null
-            )
+        if (health == null || healthBar == null || valueText == null
+            || (followWorldAnchor && (anchor == null || worldCamera == null || canvas == null)))
         {
             Debug.LogError(
                 "TownHallHealthView chưa được gán đủ tham chiếu.",
@@ -45,6 +45,11 @@ public class TownHallHealthView : MonoBehaviour
         valueText.text =
             $"{health.CurrentHealth} / {health.MaxHealth}";
 
+        if (!followWorldAnchor)
+        {
+            healthBar.gameObject.SetActive(true);
+            return;
+        }
         Vector3 screenPoint =
             worldCamera.WorldToScreenPoint(anchor.position);
 

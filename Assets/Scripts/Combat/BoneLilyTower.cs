@@ -25,8 +25,25 @@ public class BoneLilyTower : MonoBehaviour
     private float cooldown;
     private float searchDelay;
     private bool initialized;
+    private float supportBonus;
+    private float nextSupportCheck;
+
+    public float CurrentEffectiveRange => (initialized ? range : definition!=null ? definition.Range : 0f) + GetFootprintRadius();
+    public float CurrentSupportBonus => supportBonus;
+    public float CurrentAttackInterval => attackInterval / (1f + supportBonus);
 
     public ProjectileTowerDefinition Definition => definition;
+    public bool CheckpointReady => initialized && isActiveAndEnabled;
+    public bool RestoreLevel(int savedLevel)
+    {
+        if (definition == null || !definition.IsValid || savedLevel < 1 || savedLevel > definition.MaxLevel
+            || visualAnimator == null || visualAnimator.runtimeAnimatorController == null
+            || muzzle == null || projectilePrefab == null)
+            return false;
+        Level = savedLevel;
+        if (initialized) damage = definition.GetDamageAtLevel(Level);
+        return true;
+    }
 
     public int Level { get; private set; } = 1;
 
@@ -63,7 +80,9 @@ public class BoneLilyTower : MonoBehaviour
         if (cost <= 0 || !wallet.TrySpend(cost))
             return false;
 
+        GetComponent<BuildingPlacement>()?.RecordAdditionalInvestment(cost);
         Level++;
+        GameAudio.Play(GameSound.Upgrade);
         damage = definition.GetDamageAtLevel(Level);
 
         Debug.Log(
@@ -127,9 +146,16 @@ public class BoneLilyTower : MonoBehaviour
         if (Time.timeScale <= 0f)
             return;
 
+        // Kiểm tra aura 5 lần/giây; nhiều aura chỉ lấy mức mạnh nhất.
+        if (Time.time >= nextSupportCheck)
+        {
+            supportBonus = SupportBuilding.GetStrongestBonusAt(transform.position, defendedHall);
+            nextSupportCheck = Time.time + 0.2f;
+        }
+
         cooldown = Mathf.Max(
             0f,
-            cooldown - Time.deltaTime
+            cooldown - Time.deltaTime * (1f + supportBonus)
         );
 
         searchDelay = Mathf.Max(
@@ -163,7 +189,8 @@ public class BoneLilyTower : MonoBehaviour
         float bestDistance = float.PositiveInfinity;
 
         Vector2 origin = transform.position;
-        float rangeSquared = range * range;
+        float effectiveRange = CurrentEffectiveRange;
+        float rangeSquared = effectiveRange * effectiveRange;
 
         foreach (EnemyHealth candidate in enemies)
         {
@@ -176,7 +203,7 @@ public class BoneLilyTower : MonoBehaviour
             if (movement == null || !movement.IsReady)
                 continue;
 
-            Vector2 aimPosition = candidate.AimPosition;
+            Vector2 aimPosition = candidate.transform.position;
 
             float distance =
                 (aimPosition - origin).sqrMagnitude;
@@ -235,8 +262,17 @@ public class BoneLilyTower : MonoBehaviour
         projectile.Initialize(
             target,
             damage,
-            defendedHall
+            defendedHall,
+            range
         );
+        GameAudio.Play(GameSound.Shot);
+    }
+
+    private float GetFootprintRadius()
+    {
+        BuildingPlacement placement = GetComponent<BuildingPlacement>();
+        return placement != null && placement.IsPlaced ? placement.HalfSide
+            : definition != null ? definition.Footprint * 0.64f : 0f;
     }
 
     private void OnDrawGizmosSelected()
@@ -250,6 +286,7 @@ public class BoneLilyTower : MonoBehaviour
             Application.isPlaying && initialized
                 ? range
                 : definition.Range;
+        displayedRange += GetFootprintRadius();
 
         Gizmos.DrawWireSphere(
             transform.position,

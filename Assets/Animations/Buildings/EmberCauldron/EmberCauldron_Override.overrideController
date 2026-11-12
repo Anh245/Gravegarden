@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: EmberCauldron_Override
+  m_Controller: {fileID: 9100000, guid: 42cf4d39d262ac840ad074b93616f5ce, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 922e66d46ac80eb46b64c37bca250391, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 7ce47ebeefb5e20499201024781a4584, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: fab37a69513596445a487d2fc02962ec, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 2b7299c8eb02cb344ac6dc396ee7dbf9, type: 2}

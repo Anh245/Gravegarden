@@ -12,6 +12,7 @@ public class TowerUpgradeUI : MonoBehaviour
     [Header("Giao diện nâng cấp")]
     [SerializeField] private GameObject panel;
     [SerializeField] private TMP_Text infoText;
+    [SerializeField] private BuildingStatRows statRows;
     [SerializeField] private Button upgradeButton;
     [SerializeField] private Button closeButton;
 
@@ -19,6 +20,14 @@ public class TowerUpgradeUI : MonoBehaviour
     [SerializeField] private GameObject buildPanel;
 
     private BoneLilyTower selectedTower;
+    [Header("Bán công trình")]
+    [SerializeField] private BuildManager buildManager;
+    [SerializeField] private Button sellButton;
+    [SerializeField] private TMP_Text sellButtonText;
+    [Header("Di chuyển công trình")]
+    [SerializeField] private BuildingMoveController moveController;
+    [SerializeField] private Button moveButton;
+    public BoneLilyTower SelectedTower => initialized && isActiveAndEnabled && panel!=null && panel.activeInHierarchy ? selectedTower:null;
     private bool initialized;
 
     private bool CanInteract =>
@@ -51,6 +60,18 @@ public class TowerUpgradeUI : MonoBehaviour
             return;
         }
 
+        if(buildManager==null || sellButton==null || sellButtonText==null)
+        {
+            Debug.LogError("TowerUpgradeUI: gán Build Manager, Sell Button và Sell Button Text.",this);
+            enabled=false;return;
+        }
+        if(moveController==null || moveButton==null)
+        {
+            Debug.LogError("TowerUpgradeUI: gán Move Controller và Move Button.",this);
+            enabled=false;return;
+        }
+        moveButton.onClick.AddListener(MoveSelected);
+        sellButton.onClick.AddListener(SellSelected);
         upgradeButton.onClick.AddListener(UpgradeSelected);
         closeButton.onClick.AddListener(ClosePanel);
         TowerUpgradeClick.TowerClicked += SelectTower;
@@ -102,12 +123,20 @@ public class TowerUpgradeUI : MonoBehaviour
         if (selectedTower == null)
             return;
 
+        BuildingPlacement placement = selectedTower.GetComponent<BuildingPlacement>();
+        sellButtonText.text=BuildingSale.ButtonText(buildManager,placement,out bool canSell);
+        sellButton.interactable=CanInteract && canSell;
+        moveButton.interactable=CanInteract && moveController.CanBegin(placement);
         ProjectileTowerDefinition definition = selectedTower.Definition;
 
         string content =
             $"{definition.DisplayName}\n" +
             $"Cấp: {selectedTower.Level}/{definition.MaxLevel}\n" +
-            $"Sát thương: {selectedTower.CurrentDamage}\n";
+            $"Sát thương: {selectedTower.CurrentDamage}\n" +
+            $"Hỗ trợ tốc đánh: +{selectedTower.CurrentSupportBonus * 100f:0}%\n" +
+            $"Chu kỳ bắn lý thuyết: {selectedTower.CurrentAttackInterval:0.###} giây\n";
+
+        if(statRows!=null && statRows.IsConfigured){statRows.ShowTower(selectedTower);content="";}
 
         if (selectedTower.IsMaxLevel)
         {
@@ -156,6 +185,20 @@ public class TowerUpgradeUI : MonoBehaviour
         RefreshPanel();
     }
 
+    private void MoveSelected()
+    {
+        if(!CanInteract || selectedTower==null || buildPanel.activeInHierarchy) return;
+        moveController.BeginMove(selectedTower.GetComponent<BuildingPlacement>());
+    }
+
+    private void SellSelected()
+    {
+        if(!CanInteract || selectedTower==null || buildPanel.activeInHierarchy) return;
+        BuildingPlacement placement=selectedTower.GetComponent<BuildingPlacement>();
+        if(!BuildingSale.TrySell(buildManager,placement,out string error))
+            Debug.LogWarning("Bán công trình: "+error,this);
+    }
+
     public void ClosePanel()
     {
         selectedTower = null;
@@ -166,6 +209,8 @@ public class TowerUpgradeUI : MonoBehaviour
 
     private void OnDestroy()
     {
+        if(moveButton!=null) moveButton.onClick.RemoveListener(MoveSelected);
+        if(sellButton!=null) sellButton.onClick.RemoveListener(SellSelected);
         TowerUpgradeClick.TowerClicked -= SelectTower;
 
         if (upgradeButton != null)

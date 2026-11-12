@@ -21,8 +21,31 @@ public class ProducerBuilding : MonoBehaviour, IPointerClickHandler
     private int capacity;
     private string displayName;
     private bool initialized;
+    private bool hasRestoredProgress;
+    public bool CheckpointReady => initialized && isActiveAndEnabled;
+    public double StoredAmount => storedAmount;
+    public bool RestoreProgress(int savedLevel, double savedStoredAmount)
+    {
+        if (definition == null || !definition.IsValid || storageText == null
+            || savedLevel < 1 || savedLevel > definition.MaxLevel
+            || double.IsNaN(savedStoredAmount) || double.IsInfinity(savedStoredAmount)
+            || savedStoredAmount < 0d || savedStoredAmount > definition.GetCapacityAtLevel(savedLevel))
+            return false;
+        Level = savedLevel;
+        storedAmount = savedStoredAmount;
+        hasRestoredProgress = true;
+        if (initialized)
+        {
+            productionPerSecond = definition.GetProductionAtLevel(Level);
+            capacity = definition.GetCapacityAtLevel(Level);
+            RefreshDisplay();
+        }
+        return true;
+    }
 
     public ProducerDefinition Definition => definition;
+    public bool BelongsTo(PlayerWallet owner,TownHallHealth hall,WaveDirector waves)=>CheckpointReady
+        && wallet==owner && defendedHall==hall && waveDirector==waves;
 
     public int CollectableAmount =>
         (int)System.Math.Floor(storedAmount);
@@ -76,7 +99,9 @@ public class ProducerBuilding : MonoBehaviour, IPointerClickHandler
         if (cost <= 0 || !wallet.TrySpend(cost))
             return false;
 
+        GetComponent<BuildingPlacement>()?.RecordAdditionalInvestment(cost);
         Level++;
+        GameAudio.Play(GameSound.Upgrade);
 
         productionPerSecond =
             definition.GetProductionAtLevel(Level);
@@ -126,9 +151,9 @@ public class ProducerBuilding : MonoBehaviour, IPointerClickHandler
 
         productionPerSecond = definition.GetProductionAtLevel(Level);
         capacity = definition.GetCapacityAtLevel(Level);
-        capacity = definition.Capacity;
+        displayName = definition.DisplayName;
 
-        storedAmount = 0;
+        if (!hasRestoredProgress) storedAmount = 0;
         initialized = true;
 
         RefreshDisplay();
@@ -141,11 +166,13 @@ public class ProducerBuilding : MonoBehaviour, IPointerClickHandler
 
         if (CanOperate)
         {
+            bool wasFull = storedAmount >= capacity;
             storedAmount = System.Math.Min(
                 capacity,
                 storedAmount +
                 productionPerSecond * Time.deltaTime
             );
+            if (!wasFull && storedAmount >= capacity) GameAudio.Play(GameSound.Production);
         }
 
         RefreshDisplay();
@@ -153,6 +180,7 @@ public class ProducerBuilding : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if(BuildingMoveController.BlocksWorldClick(gameObject)) return;
         if (!CanOperate || !isActiveAndEnabled)
             return;
 
@@ -169,46 +197,20 @@ public class ProducerBuilding : MonoBehaviour, IPointerClickHandler
 
     [ContextMenu("Thu hoạch thử")]
 
-    public void Collect()
+    public void Collect()=>TryCollect(out _);
+
+    public bool TryCollect(out int collected,bool playSound=true)
     {
-        Debug.Log(
-        $"Thu hoạch | initialized={initialized} | " +
-        $"CanOperate={CanOperate} | " +
-        $"Tiền có thể thu={CollectableAmount}",
-        this
-    );
-
-        if (!CanOperate)
-        {
-            Debug.LogWarning(
-                "Chưa thể thu: kiểm tra tham chiếu, " +
-                "trạng thái trận và thời gian game.",
-                this
-            );
-
-            return;
-        }
-
-        int amount = CollectableAmount;
-
-        if (amount <= 0)
-        {
-            Debug.Log("Kho chưa đủ 1 tiền để thu.", this);
-            return;
-        }
-
-        int balanceBefore = wallet.Banlance;
-
-        storedAmount -= amount;
-        wallet.AddReward(amount);
-
+        collected=0;
+        if(!CanOperate || !isActiveAndEnabled) return false;
+        int amount=CollectableAmount;
+        if(amount<=0 || !wallet.TryAddRewardExact(amount)) return false;
+        storedAmount-=amount;
+        collected=amount;
+        if(playSound) GameAudio.Play(GameSound.Collect);
         RefreshDisplay();
-
-        Debug.Log(
-            $"Đã thu {amount} tiền | " +
-            $"Ví {wallet.name}: {balanceBefore} → {wallet.Banlance}",
-            this
-        );
+        if(waveDirector!=null)waveDirector.NotifyProducerHarvested(this,collected);
+        return true;
     }
 
     private void RefreshDisplay()

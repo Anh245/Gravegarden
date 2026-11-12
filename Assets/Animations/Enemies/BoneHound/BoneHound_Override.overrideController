@@ -7,7 +7,7 @@ AnimatorOverrideController:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: BoneHound_Override
-  m_Controller: {fileID: 9100000, guid: 0c112242f2bd52a4687024b00199aef7, type: 2}
+  m_Controller: {fileID: 9100000, guid: 89ae4c3779c0ced408f2af0773f75c13, type: 2}
   m_Clips:
   - m_OriginalClip: {fileID: 7400000, guid: 31f3eab8746a22940a415dceea2034f4, type: 2}
     m_OverrideClip: {fileID: 7400000, guid: 92358272ed9c59e46a70a21a72323b5b, type: 2}

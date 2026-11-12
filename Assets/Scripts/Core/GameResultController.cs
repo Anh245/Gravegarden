@@ -20,6 +20,11 @@ public class GameResultController : MonoBehaviour
     [Header("Scene chơi lại")]
     [SerializeField] private string gardenSceneName = "Garden";
 
+    [Header("Về menu - tùy chọn")]
+    [SerializeField] private Button victoryMenuButton;
+    [SerializeField] private Button defeatMenuButton;
+    [SerializeField] private string mainMenuSceneName = "MainMenu";
+    public bool HasEnded => hasEnded;
     private bool initialized;
     private bool hasEnded;
     private bool isReloading;
@@ -55,6 +60,8 @@ public class GameResultController : MonoBehaviour
         victoryRetryButton.onClick.AddListener(RestartGame);
         defeatRetryButton.onClick.AddListener(RestartGame);
 
+        if (victoryMenuButton != null) victoryMenuButton.onClick.AddListener(ReturnToMenu);
+        if (defeatMenuButton != null) defeatMenuButton.onClick.AddListener(ReturnToMenu);
         initialized = true;
     }
 
@@ -64,7 +71,7 @@ public class GameResultController : MonoBehaviour
             return;
 
         // Ưu tiên thất bại nếu nhà chính đã bị phá hủy.
-        if (defendedHall.IsDestroyed)
+        if (defendedHall.IsDestroyed || waveDirector.HasDefeatedHall)
         {
             EndGame(false);
             return;
@@ -82,6 +89,7 @@ public class GameResultController : MonoBehaviour
             return;
 
         hasEnded = true;
+        GameAudio.Finish(victory);
 
         buildManager.StopBuilding();
 
@@ -109,33 +117,29 @@ public class GameResultController : MonoBehaviour
         if (!initialized || !hasEnded || isReloading)
             return;
 
-        if (!Application.CanStreamedLevelBeLoaded(gardenSceneName))
-        {
-            Debug.LogError(
-                $"Không thể tải scene '{gardenSceneName}'. " +
-                "Hãy kiểm tra Scene List trong Build Profiles.",
-                this
-            );
+        Navigate(gardenSceneName, GardenEntryMode.NewGame);
+    }
 
-            return;
-        }
-
-        // Chặn việc bấm liên tiếp tạo nhiều yêu cầu tải scene.
+    private void ReturnToMenu()
+    {
+        if (!initialized || !hasEnded || isReloading) return;
+        Navigate(mainMenuSceneName, GardenEntryMode.None);
+    }
+    private void Navigate(string scene, GardenEntryMode mode)
+    {
+        if (!SceneNavigator.TryLoad(scene, mode, out string error))
+        { Debug.LogError(error, this); return; }
         isReloading = true;
-
         victoryRetryButton.interactable = false;
         defeatRetryButton.interactable = false;
-
-        Time.timeScale = 1f;
-
-        SceneManager.LoadSceneAsync(
-            gardenSceneName,
-            LoadSceneMode.Single
-        );
+        if (victoryMenuButton != null) victoryMenuButton.interactable = false;
+        if (defeatMenuButton != null) defeatMenuButton.interactable = false;
     }
 
     private void OnDestroy()
     {
+        if (victoryMenuButton != null) victoryMenuButton.onClick.RemoveListener(ReturnToMenu);
+        if (defeatMenuButton != null) defeatMenuButton.onClick.RemoveListener(ReturnToMenu);
         if (victoryRetryButton != null)
         {
             victoryRetryButton.onClick.RemoveListener(

@@ -74,6 +74,7 @@ public class EnemySiegeAttack : MonoBehaviour
 
     private void Update()
     {
+        if (Time.timeScale <= 0f) return;
         if (target == null)
             return;
         if (target.IsDestroyed)

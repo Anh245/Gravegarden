@@ -3,7 +3,10 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Pause
+  - "T\u1EA1m d\u1EEBng"
+  - "X\xE2y d\u1EF1ng"
   layers:
   - Default
   - TransparentFX

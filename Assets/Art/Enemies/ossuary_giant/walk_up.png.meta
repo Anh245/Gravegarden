@@ -58,7 +58,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -152,12 +152,12 @@ TextureImporter:
       name: walk_up_0
       rect:
         serializedVersion: 2
-        x: 15
+        x: 0
         y: 0
-        width: 185
-        height: 199
+        width: 216
+        height: 216
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -174,12 +174,12 @@ TextureImporter:
       name: walk_up_1
       rect:
         serializedVersion: 2
-        x: 233
+        x: 216
         y: 0
-        width: 185
-        height: 203
+        width: 216
+        height: 216
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -196,12 +196,12 @@ TextureImporter:
       name: walk_up_2
       rect:
         serializedVersion: 2
-        x: 451
-        y: 1
-        width: 186
-        height: 204
+        x: 432
+        y: 0
+        width: 216
+        height: 216
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -218,12 +218,12 @@ TextureImporter:
       name: walk_up_3
       rect:
         serializedVersion: 2
-        x: 664
+        x: 648
         y: 0
-        width: 191
-        height: 200
+        width: 216
+        height: 216
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -240,12 +240,12 @@ TextureImporter:
       name: walk_up_4
       rect:
         serializedVersion: 2
-        x: 877
+        x: 864
         y: 0
-        width: 192
-        height: 199
+        width: 216
+        height: 216
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -262,12 +262,12 @@ TextureImporter:
       name: walk_up_5
       rect:
         serializedVersion: 2
-        x: 1092
+        x: 1080
         y: 0
-        width: 187
-        height: 204
+        width: 216
+        height: 216
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -284,12 +284,12 @@ TextureImporter:
       name: walk_up_6
       rect:
         serializedVersion: 2
-        x: 1307
+        x: 1296
         y: 0
-        width: 186
-        height: 206
+        width: 216
+        height: 216
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -306,12 +306,12 @@ TextureImporter:
       name: walk_up_7
       rect:
         serializedVersion: 2
-        x: 1523
+        x: 1512
         y: 0
-        width: 189
-        height: 200
+        width: 216
+        height: 216
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -328,7 +328,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: ac19bc73adfe2984eac343af767e5b59
     internalID: 0
     vertices: []
     indices: 
@@ -336,7 +336,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":216.0,"y":216.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       walk_up_0: -4778624461764053770
       walk_up_1: -9096989396093648339

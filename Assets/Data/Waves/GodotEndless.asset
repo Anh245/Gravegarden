@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85d8e212beb39154f835660f89a371e1, type: 3}
+  m_Name: GodotEndless
+  m_EditorClassIdentifier: Assembly-CSharp::GodotEndlessWaves
+  rotling: {fileID: 7984490788894410216, guid: 8af041de19e685a438bcbc29d9e449d3, type: 3}
+  boneHound: {fileID: 3329253420692774952, guid: c9490392cd92b56459426ab80ae9e64d, type: 3}
+  bogBrute: {fileID: 270127669403817178, guid: d3f759cf22555e449b516aa28d310542, type: 3}
+  wraith: {fileID: 8764539525629265966, guid: 301ea009a43ad274cb7a5597accf9478, type: 3}
+  ossuaryGiant: {fileID: 6507463927544888712, guid: f036eb276633e6448b471c57cfcfc6e2, type: 3}

@@ -15,6 +15,13 @@ public class TownHallHealth : MonoBehaviour
 
     }
 
+    public void RestoreCheckpointHealth(int savedHealth)
+    {
+        if (savedHealth <= 0 || savedHealth > maxHealth)
+            throw new System.ArgumentOutOfRangeException(nameof(savedHealth));
+        CurrentHealth = savedHealth;
+    }
+
     public void TakeDamage(int amount)
     {
         if(IsDestroyed || amount <= 0)
@@ -23,6 +30,7 @@ public class TownHallHealth : MonoBehaviour
         }
 
         CurrentHealth = Mathf.Max(0, CurrentHealth - amount);
+        GameAudio.Play(GameSound.HeartDamage);
 
         Debug.Log($"Nha chinh bi tan cong! Mau hien tai: {CurrentHealth}/{maxHealth}", this);
 

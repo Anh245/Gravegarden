@@ -23,6 +23,56 @@ public class EnemyRouteFollower : MonoBehaviour
             ? Mathf.Clamp01(distanceTravelled / totalLength)
             : 0f;
 
+
+    private float slowStrength;
+    private float slowUntil;
+
+    // Tốc độ gốc không bị sửa khi nhận hiệu ứng.
+    public float CurrentMoveSpeed
+    {
+        get
+        {
+            float strength = Time.time < slowUntil
+                ? slowStrength
+                : 0f;
+
+            return moveSpeed * (1f - strength);
+        }
+    }
+
+    public void ApplySlow(float strength, float duration)
+    {
+        if (!isActiveAndEnabled || duration <= 0f || strength <= 0f)
+            return;
+
+        EnemyHealth enemyHealth = GetComponent<EnemyHealth>();
+
+        if (enemyHealth == null || enemyHealth.Definition == null)
+            return;
+
+        float multiplier = Mathf.Clamp01(
+            enemyHealth.Definition.SlowEffectMultiplier);
+
+        float effectiveStrength =
+            Mathf.Clamp(strength, 0f, 0.95f) * multiplier;
+
+        // Hệ số bằng 0: quái không nhận làm chậm.
+        if (effectiveStrength <= 0f)
+            return;
+
+        // Xóa mức hiệu ứng cũ nếu thời gian đã hết.
+        if (Time.time >= slowUntil)
+            slowStrength = 0f;
+
+        // Không cộng dồn; lấy mức làm chậm mạnh nhất.
+        slowStrength = Mathf.Max(
+            slowStrength,
+            effectiveStrength);
+
+        // Phát bắn mới làm mới thời gian hiệu ứng.
+        slowUntil = Time.time + duration;
+    }
+
     private void Start()
     {
 
@@ -89,7 +139,7 @@ public class EnemyRouteFollower : MonoBehaviour
 
         Vector3 beforeMove = transform.position;
 
-        Advance(moveSpeed * Time.deltaTime);
+        Advance(CurrentMoveSpeed * Time.deltaTime);
 
         FrameMovement = transform.position - beforeMove;
     }
@@ -138,5 +188,7 @@ public class EnemyRouteFollower : MonoBehaviour
     {
         route = newRoute;
         startingDistance = 0f;
+        slowStrength = 0f;
+        slowUntil = 0f;
     }
 }

@@ -58,7 +58,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -98,7 +98,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -152,12 +152,12 @@ TextureImporter:
       name: walk_down_0
       rect:
         serializedVersion: 2
-        x: 17
+        x: 0
         y: 0
-        width: 59
-        height: 84
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 92
+        height: 92
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -174,12 +174,12 @@ TextureImporter:
       name: walk_down_1
       rect:
         serializedVersion: 2
-        x: 109
+        x: 92
         y: 0
-        width: 58
-        height: 87
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 92
+        height: 92
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -196,12 +196,12 @@ TextureImporter:
       name: walk_down_2
       rect:
         serializedVersion: 2
-        x: 206
-        y: 2
-        width: 48
-        height: 85
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 184
+        y: 0
+        width: 92
+        height: 92
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -218,12 +218,12 @@ TextureImporter:
       name: walk_down_3
       rect:
         serializedVersion: 2
-        x: 298
-        y: 2
-        width: 50
-        height: 87
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 276
+        y: 0
+        width: 92
+        height: 92
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -240,12 +240,12 @@ TextureImporter:
       name: walk_down_4
       rect:
         serializedVersion: 2
-        x: 387
+        x: 368
         y: 0
-        width: 56
-        height: 85
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 92
+        height: 92
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -262,12 +262,12 @@ TextureImporter:
       name: walk_down_5
       rect:
         serializedVersion: 2
-        x: 482
+        x: 460
         y: 0
-        width: 56
-        height: 86
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 92
+        height: 92
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -284,12 +284,12 @@ TextureImporter:
       name: walk_down_6
       rect:
         serializedVersion: 2
-        x: 573
-        y: 1
-        width: 55
-        height: 86
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 552
+        y: 0
+        width: 92
+        height: 92
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -306,12 +306,12 @@ TextureImporter:
       name: walk_down_7
       rect:
         serializedVersion: 2
-        x: 664
-        y: 3
-        width: 55
-        height: 85
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 644
+        y: 0
+        width: 92
+        height: 92
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -328,7 +328,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 48976fd92d6086a44bcd203eda28e115
     internalID: 0
     vertices: []
     indices: 
@@ -336,7 +336,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":92.0,"y":92.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       walk_down_0: -2934438944226731720
       walk_down_1: 2601514537129177563

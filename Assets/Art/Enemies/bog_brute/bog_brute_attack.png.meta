@@ -58,7 +58,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -152,12 +152,12 @@ TextureImporter:
       name: bog_brute_attack_0
       rect:
         serializedVersion: 2
-        x: 13
+        x: 0
         y: 0
-        width: 181
-        height: 184
+        width: 208
+        height: 208
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -174,12 +174,12 @@ TextureImporter:
       name: bog_brute_attack_1
       rect:
         serializedVersion: 2
-        x: 219
+        x: 208
         y: 0
-        width: 182
-        height: 182
+        width: 208
+        height: 208
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -196,12 +196,12 @@ TextureImporter:
       name: bog_brute_attack_2
       rect:
         serializedVersion: 2
-        x: 415
+        x: 416
         y: 0
-        width: 194
-        height: 181
+        width: 208
+        height: 208
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -218,12 +218,12 @@ TextureImporter:
       name: bog_brute_attack_3
       rect:
         serializedVersion: 2
-        x: 623
+        x: 624
         y: 0
-        width: 199
-        height: 185
+        width: 208
+        height: 208
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -240,12 +240,12 @@ TextureImporter:
       name: bog_brute_attack_4
       rect:
         serializedVersion: 2
-        x: 854
+        x: 832
         y: 0
-        width: 181
+        width: 208
         height: 208
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -262,12 +262,12 @@ TextureImporter:
       name: bog_brute_attack_5
       rect:
         serializedVersion: 2
-        x: 1051
+        x: 1040
         y: 0
-        width: 194
-        height: 185
+        width: 208
+        height: 208
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -284,12 +284,12 @@ TextureImporter:
       name: bog_brute_attack_6
       rect:
         serializedVersion: 2
-        x: 1252
+        x: 1248
         y: 0
-        width: 198
-        height: 183
+        width: 208
+        height: 208
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -306,12 +306,12 @@ TextureImporter:
       name: bog_brute_attack_7
       rect:
         serializedVersion: 2
-        x: 1461
+        x: 1456
         y: 0
-        width: 192
-        height: 184
+        width: 208
+        height: 208
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -328,7 +328,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 2c00bdb96c6122644afeab896af6bf3f
     internalID: 0
     vertices: []
     indices: 
@@ -336,7 +336,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":208.0,"y":208.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       bog_brute_attack_0: 9133442308629112086
       bog_brute_attack_1: 7147820372112349576

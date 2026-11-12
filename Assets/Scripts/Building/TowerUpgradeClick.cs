@@ -19,6 +19,7 @@ public class TowerUpgradeClick : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if(BuildingMoveController.BlocksWorldClick(gameObject)) return;
         if (eventData.button != PointerEventData.InputButton.Left)
             return;
         if (tower == null || !tower.isActiveAndEnabled)

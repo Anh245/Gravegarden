@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MawVine_Override
+  m_Controller: {fileID: 9100000, guid: b8df187e453ebe54db8a584c4a714013, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: fab37a69513596445a487d2fc02962ec, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 6cec7bf14a647f440b694336da16bdc5, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 922e66d46ac80eb46b64c37bca250391, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 6d9def63fc814864aa07553bcee3801b, type: 2}

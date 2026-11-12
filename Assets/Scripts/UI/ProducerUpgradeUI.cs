@@ -12,6 +12,7 @@ public class ProducerUpgradeUI : MonoBehaviour
     [Header("Giao diện")]
     [SerializeField] private GameObject panel;
     [SerializeField] private TMP_Text infoText;
+    [SerializeField] private BuildingStatRows statRows;
     [SerializeField] private Button upgradeButton;
     [SerializeField] private Button closeButton;
 
@@ -20,6 +21,13 @@ public class ProducerUpgradeUI : MonoBehaviour
     [SerializeField] private TowerUpgradeUI towerUpgradeUI;
 
     private ProducerBuilding selectedProducer;
+    [Header("Bán công trình")]
+    [SerializeField] private BuildManager buildManager;
+    [SerializeField] private Button sellButton;
+    [SerializeField] private TMP_Text sellButtonText;
+    [Header("Di chuyển công trình")]
+    [SerializeField] private BuildingMoveController moveController;
+    [SerializeField] private Button moveButton;
     private bool initialized;
 
     private bool CanInteract =>
@@ -53,6 +61,18 @@ public class ProducerUpgradeUI : MonoBehaviour
             return;
         }
 
+        if(buildManager==null || sellButton==null || sellButtonText==null)
+        {
+            Debug.LogError("ProducerUpgradeUI: gán Build Manager, Sell Button và Sell Button Text.",this);
+            enabled=false;return;
+        }
+        if(moveController==null || moveButton==null)
+        {
+            Debug.LogError("ProducerUpgradeUI: gán Move Controller và Move Button.",this);
+            enabled=false;return;
+        }
+        moveButton.onClick.AddListener(MoveSelected);
+        sellButton.onClick.AddListener(SellSelected);
         upgradeButton.onClick.AddListener(UpgradeSelected);
         closeButton.onClick.AddListener(ClosePanel);
 
@@ -109,6 +129,10 @@ public class ProducerUpgradeUI : MonoBehaviour
         if (selectedProducer == null)
             return;
 
+        BuildingPlacement placement = selectedProducer.GetComponent<BuildingPlacement>();
+        sellButtonText.text=BuildingSale.ButtonText(buildManager,placement,out bool canSell);
+        sellButton.interactable=CanInteract && canSell;
+        moveButton.interactable=CanInteract && moveController.CanBegin(placement);
         ProducerDefinition definition =
             selectedProducer.Definition;
 
@@ -119,6 +143,8 @@ public class ProducerUpgradeUI : MonoBehaviour
             $"{selectedProducer.CurrentProductionPerSecond:0.##} xu/giây\n" +
             $"Trong kho: {selectedProducer.CollectableAmount}/" +
             $"{selectedProducer.CurrentCapacity}\n";
+
+        if(statRows!=null && statRows.IsConfigured){statRows.ShowProducer(selectedProducer);content="";}
 
         if (selectedProducer.IsMaxLevel)
         {
@@ -172,6 +198,20 @@ public class ProducerUpgradeUI : MonoBehaviour
         RefreshPanel();
     }
 
+    private void MoveSelected()
+    {
+        if(!CanInteract || selectedProducer==null || buildPanel.activeInHierarchy) return;
+        moveController.BeginMove(selectedProducer.GetComponent<BuildingPlacement>());
+    }
+
+    private void SellSelected()
+    {
+        if(!CanInteract || selectedProducer==null || buildPanel.activeInHierarchy) return;
+        BuildingPlacement placement=selectedProducer.GetComponent<BuildingPlacement>();
+        if(!BuildingSale.TrySell(buildManager,placement,out string error))
+            Debug.LogWarning("Bán công trình: "+error,this);
+    }
+
     public void ClosePanel()
     {
         selectedProducer = null;
@@ -182,6 +222,8 @@ public class ProducerUpgradeUI : MonoBehaviour
 
     private void OnDestroy()
     {
+        if(moveButton!=null) moveButton.onClick.RemoveListener(MoveSelected);
+        if(sellButton!=null) sellButton.onClick.RemoveListener(SellSelected);
         ProducerBuilding.UpgradeRequested -= SelectProducer;
         TowerUpgradeClick.TowerClicked -= OnTowerSelected;
 

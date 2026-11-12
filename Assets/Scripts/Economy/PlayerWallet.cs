@@ -12,6 +12,12 @@ public class PlayerWallet : MonoBehaviour
         Banlance = startingBanlance;
     }
 
+    public void RestoreCheckpointBalance(int savedBalance)
+    {
+        if (savedBalance < 0) throw new System.ArgumentOutOfRangeException(nameof(savedBalance));
+        Banlance = savedBalance;
+    }
+
     public void AddReward(int amount)
     {
         if(amount <= 0)
@@ -23,6 +29,14 @@ public class PlayerWallet : MonoBehaviour
 
         Debug.Log($"Nhan {amount} xu. So du hien tai : {Banlance}", this);
 
+    }
+
+    public bool TryAddRewardExact(int amount)
+    {
+        if(amount<0 || Banlance<0 || (long)Banlance+amount>int.MaxValue) return false;
+        Banlance+=amount;
+        Debug.Log($"Nhận {amount} xu. Số dư: {Banlance}",this);
+        return true;
     }
 
     //Phuong thuc mua ban
